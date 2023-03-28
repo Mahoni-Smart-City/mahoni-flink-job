@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+  jobmanager:
+    image: flink:latest
+    hostname: jobmanager
+    ports:
+      - "8050:8081"
+    command: jobmanager
+    environment:
+      FLINK_PROPERTIES: "jobmanager.rpc.address: jobmanager"
+    volumes:
+      - ./job/artifacts:/home
+
+  taskmanager:
+    image: flink:latest
+    hostname: taskmanager
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    deploy:
+      replicas: 2
+    volumes:
+      - ./job/artifacts:/home
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 4
