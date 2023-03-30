@@ -1,13 +1,13 @@
 package com.mahoni.flink;
 
 import com.mahoni.schema.AirQualityRawSchema;
-import org.apache.flink.api.java.tuple.Tuple3;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
 public class AqiMeasurement {
-    public int aqiO3OneHour;
+    public static int aqiO3OneHour;
     public int aqiSO2OneHour;
     public int aqiNO2OneHour;
     public int aqiO3EightHour;
@@ -29,8 +29,8 @@ public class AqiMeasurement {
         return aqiO3OneHour;
     }
 
-    public void setAqiO3OneHour(int aqiO3OneHour) {
-        this.aqiO3OneHour = aqiO3OneHour;
+    public static void setAqiO3OneHour(int aqiO3OneHour) {
+        AqiMeasurement.aqiO3OneHour = aqiO3OneHour;
     }
 
     public int getAqiSO2OneHour() {
@@ -122,14 +122,14 @@ public class AqiMeasurement {
     }
 
     public static class AqiO3
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Double,Integer>, String, TimeWindow> {
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow> {
 
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple3<String,Double,Integer>> out) throws Exception {
+                Collector<Tuple2<String,Integer>> out) throws Exception {
             double o3sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -154,18 +154,20 @@ public class AqiMeasurement {
                 aqi = 605;
             }
 
-            out.collect(Tuple3.of(key,o3avg,aqi));
+            //AqiMeasurement.setAqiO3OneHour(aqi);
+
+            out.collect(Tuple2.of(key,aqi));
         }
     }
 
     public static class AqiSO2
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Double,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple3<String,Double,Integer>> out) throws Exception {
+                Collector<Tuple2<String,Integer>> out) throws Exception {
             double so2sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -184,18 +186,18 @@ public class AqiMeasurement {
             } else{
                 aqi = 605;
             }
-            out.collect(Tuple3.of(key,so2avg,aqi));
+            out.collect(Tuple2.of(key,aqi));
         }
     }
 
     public static class AqiNO2
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Double,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple3<String,Double,Integer>> out) throws Exception {
+                Collector<Tuple2<String,Integer>> out) throws Exception {
             double no2sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -222,18 +224,18 @@ public class AqiMeasurement {
             } else {
                 aqi = 605;
             }
-            out.collect(Tuple3.of(key,no2avg,aqi));
+            out.collect(Tuple2.of(key,aqi));
         }
     }
 
     public static class AqiCO
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Double,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple3<String,Double,Integer>> out) throws Exception {
+                Collector<Tuple2<String,Integer>> out) throws Exception {
             double cosum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -260,18 +262,18 @@ public class AqiMeasurement {
             } else {
                 aqi = 605;
             }
-            out.collect(Tuple3.of(key,coavg,aqi));
+            out.collect(Tuple2.of(key,aqi));
         }
     }
 
     public static class AqiPM25
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Double,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple3<String,Double,Integer>> out) throws Exception {
+                Collector<Tuple2<String,Integer>> out) throws Exception {
             double pm25sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -298,18 +300,18 @@ public class AqiMeasurement {
             } else {
                 aqi = 605;
             }
-            out.collect(Tuple3.of(key,pm25avg,aqi));
+            out.collect(Tuple2.of(key,aqi));
         }
     }
 
     public static class AqiPM10
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Double,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple3<String,Double,Integer>> out) throws Exception {
+                Collector<Tuple2<String,Integer>> out) throws Exception {
             double pm10sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -336,7 +338,7 @@ public class AqiMeasurement {
             } else {
                 aqi = 605;
             }
-            out.collect(Tuple3.of(key,pm10avg,aqi));
+            out.collect(Tuple2.of(key,aqi));
         }
     }
 }
