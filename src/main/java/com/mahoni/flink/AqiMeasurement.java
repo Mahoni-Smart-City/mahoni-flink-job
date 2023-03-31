@@ -1,7 +1,12 @@
 package com.mahoni.flink;
 
 import com.mahoni.schema.AirQualityRawSchema;
+import org.apache.flink.api.common.state.MapState;
+import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
+import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
@@ -339,6 +344,31 @@ public class AqiMeasurement {
                 aqi = 605;
             }
             out.collect(Tuple2.of(key,aqi));
+        }
+    }
+
+    public static class SearchMaxAqi
+            extends KeyedProcessFunction<String,Tuple2<String,Integer>, Tuple2<String,Integer>> {
+
+        private MapState<String, Integer> maxValues; // state to store the maximum value for each key
+
+        @Override
+        public void open(Configuration config) {
+            maxValues = getRuntimeContext().getMapState(new MapStateDescriptor<>("maxValues", String.class, Integer.class));
+        }
+        @Override
+        public void processElement(Tuple2<String,Integer> aqi,
+                                   Context context,
+                                   Collector<Tuple2<String,Integer>> out) throws Exception {
+            Integer currentValue = aqi.f1;
+            String currentKey = aqi.f0;
+            Integer currentMax = maxValues.get(currentKey);
+
+            if (currentMax == null || currentValue > currentMax) {
+                maxValues.put(currentKey, currentValue);
+                out.collect(Tuple2.of(currentKey, currentValue));
+            }
+
         }
     }
 }

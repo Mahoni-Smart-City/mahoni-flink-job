@@ -7,6 +7,8 @@ import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.functions.AggregateFunction;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
+import org.apache.flink.api.java.functions.KeySelector;
+import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.formats.avro.registry.confluent.ConfluentRegistryAvroDeserializationSchema;
 import org.apache.flink.streaming.api.datastream.DataStream;
@@ -32,7 +34,7 @@ public class AirQualityJob {
         kafkaProps.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class.getName());
         kafkaProps.setProperty(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
 
-        AqiMeasurement aqiMeasurement = new AqiMeasurement();
+        //AqiMeasurement aqiMeasurement = new AqiMeasurement();
 
         DataStream<AirQualityRawSchema> airQualityRaw= env.addSource(new FlinkKafkaConsumer<>("air-quality-raw-topic", ConfluentRegistryAvroDeserializationSchema.forSpecific(AirQualityRawSchema.class,"http://localhost:8081"), kafkaProps))
                 .assignTimestampsAndWatermarks(
@@ -80,55 +82,11 @@ public class AirQualityJob {
                 .process(new AqiMeasurement.AqiPM25());
 
         //pm25.print(); // hasil (pm25 rata2 selama 8 menit, aqi yang didapatkan dari 8 menit)
-        /*
-        DataStream<Tuple2<String,Integer>> aqi = o3
-                .union(so2)
-                .union(no2)
-                .union(co)
-                .union(pm10)
-                .union(pm25)
-                .keyBy((Tuple2<String,Integer> sensor) -> sensor.f0)
-                .windowAll(TumblingProcessingTimeWindows.of(Time.minutes(1))).aggregate(
-                        new AggregateFunction<Tuple2<String,Integer> , Integer, Tuple2<String,Integer>>() {
-                            @Override
-                            public Integer createAccumulator() {
-                                return Integer.MIN_VALUE;
-                            }
 
-                            @Override
-                            public Integer add(Tuple2<String, Integer> val, Integer accumulator) {
-                                return Math.max(val.f1,accumulator);
-                            }
+        DataStream<Tuple2<String,Integer>> aqi = o3.union(so2,no2,co,pm10,pm25)
+                .keyBy(value -> value.f0)
+                .process(new AqiMeasurement.SearchMaxAqi());
 
-                            @Override
-                            public Tuple2<String, Integer> getResult(Integer integer) {
-                                return null;
-                            }
-
-                            @Override
-                            public Tuple2<String, Integer> getResult(Tuple2<String, Integer> accumulator) {
-                                return accumulator;
-                            }
-
-                            @Override
-                            public Integer merge(Integer integer, Integer acc1) {
-                                return Math.max(integer,acc1);
-                            }
-                        }
-                );
-                
-         */
-                /*
-                .reduce(
-                        new ReduceFunction<Tuple2<String,Integer>>() {
-                            @Override
-                            public Tuple2<String,Integer> reduce(Tuple2<String,Integer> value1, Tuple2<String,Integer> value2) throws Exception {
-                                return new Tuple2<>(value1.f0,Math.max(value1.f1, value2.f1));
-                            }
-                        }
-                       );
-
-                 */
         aqi.print();
 
         env.execute("Air Quality Job");
