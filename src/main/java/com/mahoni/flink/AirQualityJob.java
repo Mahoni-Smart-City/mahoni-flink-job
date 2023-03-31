@@ -1,21 +1,18 @@
 package com.mahoni.flink;
 
-import com.mahoni.schema.AirQualityRawSchema;
-
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
-import org.apache.flink.api.common.functions.AggregateFunction;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
-import org.apache.flink.api.java.functions.KeySelector;
-import org.apache.flink.api.java.tuple.Tuple;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.formats.avro.registry.confluent.ConfluentRegistryAvroDeserializationSchema;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.co.ProcessJoinFunction;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.util.Collector;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 
@@ -87,8 +84,34 @@ public class AirQualityJob {
                 .keyBy(value -> value.f0)
                 .process(new AqiMeasurement.SearchMaxAqi());
 
-        aqi.print();
+        aqi.print(); //hasil pencarian AQI Max dari semua indikator yang digunakan
+
+        //DataStream<AirQualityRawSchema> newaqi = airQualityRaw.join(aqi)
+
+
+
+        DataStream<AirQualityRawSchema> renewAqi = airQualityRaw
+                .keyBy((AirQualityRawSchema sensor) -> sensor.getSensorId())
+                        .intervalJoin(aqi.keyBy(value -> value.f0))
+                                .between(Time.minutes(-1),Time.minutes(0)).process( new RenewAqi());
+
+        renewAqi.print();
 
         env.execute("Air Quality Job");
+    }
+
+    public static class RenewAqi extends ProcessJoinFunction<AirQualityRawSchema,Tuple2<String,Integer>,AirQualityRawSchema>{
+
+        @Override
+        public void processElement(AirQualityRawSchema airQualityRawSchema,
+                                   Tuple2<String, Integer> aqi,
+                                   Context context,
+                                   Collector<AirQualityRawSchema> out) throws Exception {
+            if (aqi != null) {
+                int newAqi = aqi.f1;
+                airQualityRawSchema.setAqi((double) newAqi );
+            }
+            out.collect(airQualityRawSchema);
+        }
     }
 }

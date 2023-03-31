@@ -6,85 +6,11 @@ import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
-import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
 
 public class AqiMeasurement {
-    public static int aqiO3OneHour;
-    public int aqiSO2OneHour;
-    public int aqiNO2OneHour;
-    public int aqiO3EightHour;
-    public int aqiCOEightHour;
-    public int aqiPm25OneDay;
-    public int aqiPm10OneDay;
-
-    public AqiMeasurement(){
-        this.aqiO3OneHour = 0;
-        this.aqiSO2OneHour = 0;
-        this.aqiNO2OneHour = 0;
-        this.aqiO3EightHour = 0;
-        this.aqiCOEightHour = 0;
-        this.aqiPm25OneDay = 0;
-        this.aqiPm10OneDay = 0;
-    }
-
-    public int getAqiO3OneHour() {
-        return aqiO3OneHour;
-    }
-
-    public static void setAqiO3OneHour(int aqiO3OneHour) {
-        AqiMeasurement.aqiO3OneHour = aqiO3OneHour;
-    }
-
-    public int getAqiSO2OneHour() {
-        return aqiSO2OneHour;
-    }
-
-    public void setAqiSO2OneHour(int aqiSO2OneHour) {
-        this.aqiSO2OneHour = aqiSO2OneHour;
-    }
-
-    public int getAqiNO2OneHour() {
-        return aqiNO2OneHour;
-    }
-
-    public void setAqiNO2OneHour(int aqiNO2OneHour) {
-        this.aqiNO2OneHour = aqiNO2OneHour;
-    }
-
-    public int getAqiO3EightHour() {
-        return aqiO3EightHour;
-    }
-
-    public void setAqiO3EightHour(int aqiO3EightHour) {
-        this.aqiO3EightHour = aqiO3EightHour;
-    }
-
-    public int getAqiCOEightHour() {
-        return aqiCOEightHour;
-    }
-
-    public void setAqiCOEightHour(int aqiCOEightHour) {
-        this.aqiCOEightHour = aqiCOEightHour;
-    }
-
-    public int getAqiPm25OneDay() {
-        return aqiPm25OneDay;
-    }
-
-    public void setAqiPm25OneDay(int aqiPm25OneDay) {
-        this.aqiPm25OneDay = aqiPm25OneDay;
-    }
-
-    public int getAqiPm10OneDay() {
-        return aqiPm10OneDay;
-    }
-
-    public void setAqiPm10OneDay(int aqiPm10OneDay) {
-        this.aqiPm10OneDay = aqiPm10OneDay;
-    }
 
     public static Integer calculateAqi(int levelAqi, double lowerlimit, double upperLimit, double avgMeasurement){
         int upperAqi;
@@ -158,8 +84,6 @@ public class AqiMeasurement {
             } else {
                 aqi = 605;
             }
-
-            //AqiMeasurement.setAqiO3OneHour(aqi);
 
             out.collect(Tuple2.of(key,aqi));
         }
@@ -349,7 +273,6 @@ public class AqiMeasurement {
 
     public static class SearchMaxAqi
             extends KeyedProcessFunction<String,Tuple2<String,Integer>, Tuple2<String,Integer>> {
-
         private MapState<String, Integer> maxValues; // state to store the maximum value for each key
 
         @Override
