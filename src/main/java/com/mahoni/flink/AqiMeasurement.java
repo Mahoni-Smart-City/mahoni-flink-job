@@ -4,6 +4,7 @@ import com.mahoni.schema.AirQualityRawSchema;
 import org.apache.flink.api.common.state.MapState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
@@ -12,55 +13,63 @@ import org.apache.flink.util.Collector;
 
 public class AqiMeasurement {
 
-    public static Integer calculateAqi(int levelAqi, double lowerlimit, double upperLimit, double avgMeasurement){
+    public static Tuple2<Integer,String> calculateAqi(int levelAqi, double lowerlimit, double upperLimit, double avgMeasurement){
         int upperAqi;
         int lowerAqi;
+        String category;
 
         switch (levelAqi){
             case 1:
                 upperAqi = 50;
                 lowerAqi = 0;
+                category = "Good";
                 break;
             case 2:
                 upperAqi = 100;
                 lowerAqi = 51;
+                category = "Moderate";
                 break;
             case 3:
                 upperAqi = 150;
                 lowerAqi = 101;
+                category = "Unhealthy for Sensitive Groups";
                 break;
             case 4:
                 upperAqi = 200;
                 lowerAqi = 151;
+                category = "Unhealthy";
                 break;
             case 5:
                 upperAqi = 300;
                 lowerAqi = 201;
+                category = "Very unhealthy";
                 break;
             case 6:
                 upperAqi = 400;
                 lowerAqi = 301;
+                category = "Hazardous";
                 break;
             case 7:
                 upperAqi = 500;
                 lowerAqi = 401;
+                category = "Hazardous";
                 break;
-            default:upperAqi=0;lowerAqi=0;
+            default:upperAqi=0;lowerAqi=0;category="";
         }
 
         int aqi = (int)Math.floor(((upperAqi-lowerAqi)/(upperLimit-lowerlimit))*(avgMeasurement-lowerlimit) + lowerAqi);
-        return aqi;
+        return Tuple2.of(aqi,category);
     }
 
     public static class AqiO3
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow> {
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Integer,String>, String, TimeWindow> {
 
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple2<String,Integer>> out) throws Exception {
+                Collector<Tuple3<String,Integer,String>> out) throws Exception {
             double o3sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -70,7 +79,7 @@ public class AqiMeasurement {
             }
             //AqiMeasurement aqiMeasurement = new AqiMeasurement();
             double o3avg = Math.floor(o3sum/count * 1000) / 1000;
-            int aqi;
+            Tuple2<Integer,String>  aqi = new Tuple2<>();
             if( o3avg >= 0.125 && o3avg <= 0.164 ){
                 aqi = AqiMeasurement.calculateAqi(3,0.125,0.164,o3avg);
             } else if (o3avg >= 0.165 && o3avg <= 0.204) {
@@ -81,22 +90,20 @@ public class AqiMeasurement {
                 aqi = AqiMeasurement.calculateAqi(6,0.405,0.504,o3avg);
             } else if (o3avg >= 0.505 && o3avg <= 0.604) {
                 aqi = AqiMeasurement.calculateAqi(7,0.505,0.604,o3avg);
-            } else {
-                aqi = 605;
             }
 
-            out.collect(Tuple2.of(key,aqi));
+            out.collect(Tuple3.of(key, aqi.f0,aqi.f1));
         }
     }
 
     public static class AqiSO2
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Integer,String>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple2<String,Integer>> out) throws Exception {
+                Collector<Tuple3<String,Integer,String>> out) throws Exception {
             double so2sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -105,28 +112,26 @@ public class AqiMeasurement {
                 count ++;
             }
             double so2avg = Math.floor(so2sum/count * 1000) / 1000;
-            int aqi;
+            Tuple2<Integer,String>  aqi = new Tuple2<>();
             if (so2avg >= 0 && so2avg <= 35){
                 aqi = AqiMeasurement.calculateAqi(1,0,35,so2avg);
             } else if (so2avg >= 36 && so2avg <= 75) {
                 aqi = AqiMeasurement.calculateAqi(2,36,75,so2avg);
             } else if( so2avg >= 76 && so2avg <= 185 ){
                 aqi = AqiMeasurement.calculateAqi(3,76,185,so2avg);
-            } else{
-                aqi = 605;
             }
-            out.collect(Tuple2.of(key,aqi));
+            out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
     }
 
     public static class AqiNO2
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Integer,String>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple2<String,Integer>> out) throws Exception {
+                Collector<Tuple3<String,Integer,String>> out) throws Exception {
             double no2sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -135,7 +140,7 @@ public class AqiMeasurement {
                 count ++;
             }
             double no2avg = Math.floor(no2sum/count * 1000) / 1000;
-            int aqi;
+            Tuple2<Integer,String>  aqi = new Tuple2<>();
             if (no2avg >= 0 && no2avg <= 53) {
                 aqi = AqiMeasurement.calculateAqi(1,0,53,no2avg);
             } else if (no2avg >= 54 && no2avg <= 100) {
@@ -150,21 +155,19 @@ public class AqiMeasurement {
                 aqi = AqiMeasurement.calculateAqi(6,1250,1649,no2avg);
             } else if (no2avg >= 1650 && no2avg <= 2049) {
                 aqi = AqiMeasurement.calculateAqi(7,1650,2049,no2avg);
-            } else {
-                aqi = 605;
             }
-            out.collect(Tuple2.of(key,aqi));
+            out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
     }
 
     public static class AqiCO
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Integer,String>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple2<String,Integer>> out) throws Exception {
+                Collector<Tuple3<String,Integer,String>> out) throws Exception {
             double cosum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -173,7 +176,7 @@ public class AqiMeasurement {
                 count ++;
             }
             double coavg = Math.floor(cosum/count * 10) / 10;
-            int aqi;
+            Tuple2<Integer,String>  aqi = new Tuple2<>();
             if (coavg >= 0 && coavg <= 4.4) {
                 aqi = AqiMeasurement.calculateAqi(1,0,4.4,coavg);
             } else if (coavg >= 4.5 && coavg <= 9.4) {
@@ -188,21 +191,19 @@ public class AqiMeasurement {
                 aqi = AqiMeasurement.calculateAqi(6,30.5,40.4,coavg);
             } else if (coavg >= 40.5 && coavg <= 50.4) {
                 aqi = AqiMeasurement.calculateAqi(7,40.5,50.4,coavg);
-            } else {
-                aqi = 605;
             }
-            out.collect(Tuple2.of(key,aqi));
+            out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
     }
 
     public static class AqiPM25
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Integer,String>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple2<String,Integer>> out) throws Exception {
+                Collector<Tuple3<String,Integer,String>> out) throws Exception {
             double pm25sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -211,7 +212,7 @@ public class AqiMeasurement {
                 count ++;
             }
             double pm25avg = Math.floor(pm25sum/count * 10) / 10;
-            int aqi;
+            Tuple2<Integer,String>  aqi = new Tuple2<>();
             if (pm25avg >= 0 && pm25avg <= 12) {
                 aqi = AqiMeasurement.calculateAqi(1,0,12,pm25avg);
             } else if (pm25avg >= 12.1 && pm25avg <= 35.4) {
@@ -226,21 +227,19 @@ public class AqiMeasurement {
                 aqi = AqiMeasurement.calculateAqi(6,250.5,350.4,pm25avg);
             } else if (pm25avg >= 350.5 && pm25avg <= 500.4) {
                 aqi = AqiMeasurement.calculateAqi(7,350.5,500.4,pm25avg);
-            } else {
-                aqi = 605;
             }
-            out.collect(Tuple2.of(key,aqi));
+            out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
     }
 
     public static class AqiPM10
-            extends ProcessWindowFunction<AirQualityRawSchema, Tuple2<String,Integer>, String, TimeWindow>{
+            extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Integer,String>, String, TimeWindow>{
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
-                Collector<Tuple2<String,Integer>> out) throws Exception {
+                Collector<Tuple3<String,Integer,String>> out) throws Exception {
             double pm10sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
@@ -249,7 +248,7 @@ public class AqiMeasurement {
                 count ++;
             }
             double pm10avg = Math.round(pm10sum);
-            int aqi;
+            Tuple2<Integer,String>  aqi = new Tuple2<>();
             if (pm10avg >= 0 && pm10avg <= 54) {
                 aqi = AqiMeasurement.calculateAqi(1,0,54,pm10avg);
             } else if (pm10avg >= 55 && pm10avg <= 154) {
@@ -264,15 +263,13 @@ public class AqiMeasurement {
                 aqi = AqiMeasurement.calculateAqi(6,425,504,pm10avg);
             } else if (pm10avg >= 505 && pm10avg <= 604) {
                 aqi = AqiMeasurement.calculateAqi(7,505,604,pm10avg);
-            } else {
-                aqi = 605;
             }
-            out.collect(Tuple2.of(key,aqi));
+            out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
     }
 
     public static class SearchMaxAqi
-            extends KeyedProcessFunction<String,Tuple2<String,Integer>, Tuple2<String,Integer>> {
+            extends KeyedProcessFunction<String,Tuple3<String,Integer,String>, Tuple3<String,Integer,String>> {
         private MapState<String, Integer> maxValues; // state to store the maximum value for each key
 
         @Override
@@ -280,16 +277,18 @@ public class AqiMeasurement {
             maxValues = getRuntimeContext().getMapState(new MapStateDescriptor<>("maxValues", String.class, Integer.class));
         }
         @Override
-        public void processElement(Tuple2<String,Integer> aqi,
+        public void processElement(Tuple3<String,Integer,String> aqi,
                                    Context context,
-                                   Collector<Tuple2<String,Integer>> out) throws Exception {
+                                   Collector<Tuple3<String,Integer,String>> out) throws Exception {
             Integer currentValue = aqi.f1;
             String currentKey = aqi.f0;
+            String category = aqi.f2;
             Integer currentMax = maxValues.get(currentKey);
+            //System.out.print(aqi.f0+aqi.f1+aqi.f2);
 
             if (currentMax == null || currentValue > currentMax) {
                 maxValues.put(currentKey, currentValue);
-                out.collect(Tuple2.of(currentKey, currentValue));
+                out.collect(Tuple3.of(currentKey, currentValue,category));
             }
 
         }
