@@ -54,42 +54,44 @@ public class AqiMeasurement {
                 lowerAqi = 401;
                 category = "Hazardous";
                 break;
-            default:upperAqi=0;lowerAqi=0;category="";
+            default:
+                upperAqi = 0;
+                lowerAqi = 0;
+                category = "";
         }
 
-        int aqi = (int)Math.floor(((upperAqi-lowerAqi)/(upperLimit-lowerlimit))*(avgMeasurement-lowerlimit) + lowerAqi);
+        int aqi = (int)Math.floor(((upperAqi - lowerAqi) / (upperLimit - lowerlimit)) * (avgMeasurement - lowerlimit) + lowerAqi);
         return Tuple2.of(aqi,category);
     }
 
     public static class AqiO3
             extends ProcessWindowFunction<AirQualityRawSchema, Tuple3<String,Integer,String>, String, TimeWindow> {
-
         @Override
         public void process(
                 String key,
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
                 Collector<Tuple3<String,Integer,String>> out) throws Exception {
-            double o3sum = 0.0;
+            double o3Sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
                 double o3 = Math.floor(air.getO3() * 1000) / 1000; //truncate 3 decimal
-                o3sum += o3;
+                o3Sum += o3;
                 count ++;
             }
             //AqiMeasurement aqiMeasurement = new AqiMeasurement();
-            double o3avg = Math.floor(o3sum/count * 1000) / 1000;
+            double o3Avg = Math.floor(o3Sum / count * 1000) / 1000;
             Tuple2<Integer,String>  aqi = new Tuple2<>();
-            if( o3avg >= 0.125 && o3avg <= 0.164 ){
-                aqi = AqiMeasurement.calculateAqi(3,0.125,0.164,o3avg);
-            } else if (o3avg >= 0.165 && o3avg <= 0.204) {
-                aqi = AqiMeasurement.calculateAqi(4,0.165,0.204,o3avg);
-            } else if (o3avg >= 0.205 && o3avg <= 0.404) {
-                aqi = AqiMeasurement.calculateAqi(5,0.205,0.404,o3avg);
-            } else if (o3avg >= 0.405 && o3avg <= 0.504) {
-                aqi = AqiMeasurement.calculateAqi(6,0.405,0.504,o3avg);
-            } else if (o3avg >= 0.505 && o3avg <= 0.604) {
-                aqi = AqiMeasurement.calculateAqi(7,0.505,0.604,o3avg);
+            if( o3Avg >= 0.125 && o3Avg <= 0.164 ){
+                aqi = AqiMeasurement.calculateAqi(3,0.125,0.164, o3Avg);
+            } else if (o3Avg >= 0.165 && o3Avg <= 0.204) {
+                aqi = AqiMeasurement.calculateAqi(4,0.165,0.204, o3Avg);
+            } else if (o3Avg >= 0.205 && o3Avg <= 0.404) {
+                aqi = AqiMeasurement.calculateAqi(5,0.205,0.404, o3Avg);
+            } else if (o3Avg >= 0.405 && o3Avg <= 0.504) {
+                aqi = AqiMeasurement.calculateAqi(6,0.405,0.504, o3Avg);
+            } else if (o3Avg >= 0.505 && o3Avg <= 0.604) {
+                aqi = AqiMeasurement.calculateAqi(7,0.505,0.604, o3Avg);
             }
 
             out.collect(Tuple3.of(key, aqi.f0,aqi.f1));
@@ -104,21 +106,21 @@ public class AqiMeasurement {
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
                 Collector<Tuple3<String,Integer,String>> out) throws Exception {
-            double so2sum = 0.0;
+            double so2Sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
                 int so2 = (int)Math.round(air.getSo2()); //truncate integer
-                so2sum += so2;
+                so2Sum += so2;
                 count ++;
             }
-            double so2avg = Math.floor(so2sum/count * 1000) / 1000;
+            double so2Avg = Math.floor(so2Sum / count * 1000) / 1000;
             Tuple2<Integer,String>  aqi = new Tuple2<>();
-            if (so2avg >= 0 && so2avg <= 35){
-                aqi = AqiMeasurement.calculateAqi(1,0,35,so2avg);
-            } else if (so2avg >= 36 && so2avg <= 75) {
-                aqi = AqiMeasurement.calculateAqi(2,36,75,so2avg);
-            } else if( so2avg >= 76 && so2avg <= 185 ){
-                aqi = AqiMeasurement.calculateAqi(3,76,185,so2avg);
+            if (so2Avg >= 0 && so2Avg <= 35){
+                aqi = AqiMeasurement.calculateAqi(1,0,35, so2Avg);
+            } else if (so2Avg >= 36 && so2Avg <= 75) {
+                aqi = AqiMeasurement.calculateAqi(2,36,75, so2Avg);
+            } else if( so2Avg >= 76 && so2Avg <= 185 ){
+                aqi = AqiMeasurement.calculateAqi(3,76,185, so2Avg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
@@ -132,29 +134,29 @@ public class AqiMeasurement {
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
                 Collector<Tuple3<String,Integer,String>> out) throws Exception {
-            double no2sum = 0.0;
+            double no2Sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
                 double no2 = Math.round(air.getNo2()); //truncate integer
-                no2sum += no2;
+                no2Sum += no2;
                 count ++;
             }
-            double no2avg = Math.floor(no2sum/count * 1000) / 1000;
+            double no2Avg = Math.floor(no2Sum / count * 1000) / 1000;
             Tuple2<Integer,String>  aqi = new Tuple2<>();
-            if (no2avg >= 0 && no2avg <= 53) {
-                aqi = AqiMeasurement.calculateAqi(1,0,53,no2avg);
-            } else if (no2avg >= 54 && no2avg <= 100) {
-                aqi = AqiMeasurement.calculateAqi(2,54,100,no2avg);
-            } else if( no2avg >= 101 && no2avg <= 360 ){
-                aqi = AqiMeasurement.calculateAqi(3,101,360,no2avg);
-            } else if (no2avg >= 361 && no2avg <= 649) {
-                aqi = AqiMeasurement.calculateAqi(4,361,649,no2avg);
-            } else if (no2avg >= 650 && no2avg <= 1249) {
-                aqi = AqiMeasurement.calculateAqi(5,650,1249,no2avg);
-            } else if (no2avg >= 1250 && no2avg <= 1649) {
-                aqi = AqiMeasurement.calculateAqi(6,1250,1649,no2avg);
-            } else if (no2avg >= 1650 && no2avg <= 2049) {
-                aqi = AqiMeasurement.calculateAqi(7,1650,2049,no2avg);
+            if (no2Avg >= 0 && no2Avg <= 53) {
+                aqi = AqiMeasurement.calculateAqi(1,0,53, no2Avg);
+            } else if (no2Avg >= 54 && no2Avg <= 100) {
+                aqi = AqiMeasurement.calculateAqi(2,54,100, no2Avg);
+            } else if( no2Avg >= 101 && no2Avg <= 360 ){
+                aqi = AqiMeasurement.calculateAqi(3,101,360, no2Avg);
+            } else if (no2Avg >= 361 && no2Avg <= 649) {
+                aqi = AqiMeasurement.calculateAqi(4,361,649, no2Avg);
+            } else if (no2Avg >= 650 && no2Avg <= 1249) {
+                aqi = AqiMeasurement.calculateAqi(5,650,1249, no2Avg);
+            } else if (no2Avg >= 1250 && no2Avg <= 1649) {
+                aqi = AqiMeasurement.calculateAqi(6,1250,1649, no2Avg);
+            } else if (no2Avg >= 1650 && no2Avg <= 2049) {
+                aqi = AqiMeasurement.calculateAqi(7,1650,2049, no2Avg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
@@ -168,29 +170,29 @@ public class AqiMeasurement {
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
                 Collector<Tuple3<String,Integer,String>> out) throws Exception {
-            double cosum = 0.0;
+            double coSum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
                 double co = Math.round(air.getCo()); //truncate integer
-                cosum += co;
+                coSum += co;
                 count ++;
             }
-            double coavg = Math.floor(cosum/count * 10) / 10;
+            double coAvg = Math.floor(coSum / count * 10) / 10;
             Tuple2<Integer,String>  aqi = new Tuple2<>();
-            if (coavg >= 0 && coavg <= 4.4) {
-                aqi = AqiMeasurement.calculateAqi(1,0,4.4,coavg);
-            } else if (coavg >= 4.5 && coavg <= 9.4) {
-                aqi = AqiMeasurement.calculateAqi(2,4.5,9.4,coavg);
-            } else if( coavg >= 9.5 && coavg <= 12.4 ){
-                aqi = AqiMeasurement.calculateAqi(3,9.5,12.4,coavg);
-            } else if (coavg >= 12.5 && coavg <= 15.4) {
-                aqi = AqiMeasurement.calculateAqi(4,12.5,15.4,coavg);
-            } else if (coavg >= 15.5 && coavg <= 30.4) {
-                aqi = AqiMeasurement.calculateAqi(5,15.5,30.4,coavg);
-            } else if (coavg >= 30.5 && coavg <= 40.4) {
-                aqi = AqiMeasurement.calculateAqi(6,30.5,40.4,coavg);
-            } else if (coavg >= 40.5 && coavg <= 50.4) {
-                aqi = AqiMeasurement.calculateAqi(7,40.5,50.4,coavg);
+            if (coAvg >= 0 && coAvg <= 4.4) {
+                aqi = AqiMeasurement.calculateAqi(1,0,4.4, coAvg);
+            } else if (coAvg >= 4.5 && coAvg <= 9.4) {
+                aqi = AqiMeasurement.calculateAqi(2,4.5,9.4, coAvg);
+            } else if( coAvg >= 9.5 && coAvg <= 12.4 ){
+                aqi = AqiMeasurement.calculateAqi(3,9.5,12.4, coAvg);
+            } else if (coAvg >= 12.5 && coAvg <= 15.4) {
+                aqi = AqiMeasurement.calculateAqi(4,12.5,15.4, coAvg);
+            } else if (coAvg >= 15.5 && coAvg <= 30.4) {
+                aqi = AqiMeasurement.calculateAqi(5,15.5,30.4, coAvg);
+            } else if (coAvg >= 30.5 && coAvg <= 40.4) {
+                aqi = AqiMeasurement.calculateAqi(6,30.5,40.4, coAvg);
+            } else if (coAvg >= 40.5 && coAvg <= 50.4) {
+                aqi = AqiMeasurement.calculateAqi(7,40.5,50.4, coAvg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
@@ -204,29 +206,29 @@ public class AqiMeasurement {
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
                 Collector<Tuple3<String,Integer,String>> out) throws Exception {
-            double pm25sum = 0.0;
+            double pm25Sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
                 double pm25 = Math.round(air.getPm25()); //truncate integer
-                pm25sum += pm25;
+                pm25Sum += pm25;
                 count ++;
             }
-            double pm25avg = Math.floor(pm25sum/count * 10) / 10;
+            double pm25Avg = Math.floor(pm25Sum / count * 10) / 10;
             Tuple2<Integer,String>  aqi = new Tuple2<>();
-            if (pm25avg >= 0 && pm25avg <= 12) {
-                aqi = AqiMeasurement.calculateAqi(1,0,12,pm25avg);
-            } else if (pm25avg >= 12.1 && pm25avg <= 35.4) {
-                aqi = AqiMeasurement.calculateAqi(2,12.1,35.4,pm25avg);
-            } else if( pm25avg >= 35.5 && pm25avg <= 55.4 ){
-                aqi = AqiMeasurement.calculateAqi(3,35.5,55.4,pm25avg);
-            } else if (pm25avg >= 55.5 && pm25avg <= 150.4) {
-                aqi = AqiMeasurement.calculateAqi(4,55.5,150.4,pm25avg);
-            } else if (pm25avg >= 150.5 && pm25avg <= 250.4) {
-                aqi = AqiMeasurement.calculateAqi(5,150.5,250.4,pm25avg);
-            } else if (pm25avg >= 250.5 && pm25avg <= 350.4) {
-                aqi = AqiMeasurement.calculateAqi(6,250.5,350.4,pm25avg);
-            } else if (pm25avg >= 350.5 && pm25avg <= 500.4) {
-                aqi = AqiMeasurement.calculateAqi(7,350.5,500.4,pm25avg);
+            if (pm25Avg >= 0 && pm25Avg <= 12) {
+                aqi = AqiMeasurement.calculateAqi(1,0,12, pm25Avg);
+            } else if (pm25Avg >= 12.1 && pm25Avg <= 35.4) {
+                aqi = AqiMeasurement.calculateAqi(2,12.1,35.4, pm25Avg);
+            } else if( pm25Avg >= 35.5 && pm25Avg <= 55.4 ){
+                aqi = AqiMeasurement.calculateAqi(3,35.5,55.4, pm25Avg);
+            } else if (pm25Avg >= 55.5 && pm25Avg <= 150.4) {
+                aqi = AqiMeasurement.calculateAqi(4,55.5,150.4, pm25Avg);
+            } else if (pm25Avg >= 150.5 && pm25Avg <= 250.4) {
+                aqi = AqiMeasurement.calculateAqi(5,150.5,250.4, pm25Avg);
+            } else if (pm25Avg >= 250.5 && pm25Avg <= 350.4) {
+                aqi = AqiMeasurement.calculateAqi(6,250.5,350.4, pm25Avg);
+            } else if (pm25Avg >= 350.5 && pm25Avg <= 500.4) {
+                aqi = AqiMeasurement.calculateAqi(7,350.5,500.4, pm25Avg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
@@ -240,29 +242,29 @@ public class AqiMeasurement {
                 Context context,
                 Iterable<AirQualityRawSchema> airQuality,
                 Collector<Tuple3<String,Integer,String>> out) throws Exception {
-            double pm10sum = 0.0;
+            double pm10Sum = 0.0;
             int count = 0;
             for( AirQualityRawSchema air : airQuality){
                 double pm10 = Math.round(air.getPm10()); //truncate integer
-                pm10sum += pm10;
+                pm10Sum += pm10;
                 count ++;
             }
-            double pm10avg = Math.round(pm10sum);
+            double pm10Avg = Math.round(pm10Sum);
             Tuple2<Integer,String>  aqi = new Tuple2<>();
-            if (pm10avg >= 0 && pm10avg <= 54) {
-                aqi = AqiMeasurement.calculateAqi(1,0,54,pm10avg);
-            } else if (pm10avg >= 55 && pm10avg <= 154) {
-                aqi = AqiMeasurement.calculateAqi(2,55,154,pm10avg);
-            } else if( pm10avg >= 155 && pm10avg <= 254 ){
-                aqi = AqiMeasurement.calculateAqi(3,155,254,pm10avg);
-            } else if (pm10avg >= 255 && pm10avg <= 354) {
-                aqi = AqiMeasurement.calculateAqi(4,255,354,pm10avg);
-            } else if (pm10avg >= 355 && pm10avg <= 424) {
-                aqi = AqiMeasurement.calculateAqi(5,355,424,pm10avg);
-            } else if (pm10avg >= 425 && pm10avg <= 504) {
-                aqi = AqiMeasurement.calculateAqi(6,425,504,pm10avg);
-            } else if (pm10avg >= 505 && pm10avg <= 604) {
-                aqi = AqiMeasurement.calculateAqi(7,505,604,pm10avg);
+            if (pm10Avg >= 0 && pm10Avg <= 54) {
+                aqi = AqiMeasurement.calculateAqi(1,0,54, pm10Avg);
+            } else if (pm10Avg >= 55 && pm10Avg <= 154) {
+                aqi = AqiMeasurement.calculateAqi(2,55,154, pm10Avg);
+            } else if( pm10Avg >= 155 && pm10Avg <= 254 ){
+                aqi = AqiMeasurement.calculateAqi(3,155,254, pm10Avg);
+            } else if (pm10Avg >= 255 && pm10Avg <= 354) {
+                aqi = AqiMeasurement.calculateAqi(4,255,354, pm10Avg);
+            } else if (pm10Avg >= 355 && pm10Avg <= 424) {
+                aqi = AqiMeasurement.calculateAqi(5,355,424, pm10Avg);
+            } else if (pm10Avg >= 425 && pm10Avg <= 504) {
+                aqi = AqiMeasurement.calculateAqi(6,425,504, pm10Avg);
+            } else if (pm10Avg >= 505 && pm10Avg <= 604) {
+                aqi = AqiMeasurement.calculateAqi(7,505,604, pm10Avg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
@@ -270,7 +272,7 @@ public class AqiMeasurement {
 
     public static class SearchMaxAqi
             extends KeyedProcessFunction<String,Tuple3<String,Integer,String>, Tuple3<String,Integer,String>> {
-        private MapState<String, Integer> maxValues; // state to store the maximum value for each key
+        private MapState<String, Integer> maxValues;
 
         @Override
         public void open(Configuration config) {
@@ -284,7 +286,6 @@ public class AqiMeasurement {
             String currentKey = aqi.f0;
             String category = aqi.f2;
             Integer currentMax = maxValues.get(currentKey);
-            //System.out.print(aqi.f0+aqi.f1+aqi.f2);
 
             if (currentMax == null || currentValue > currentMax) {
                 maxValues.put(currentKey, currentValue);
