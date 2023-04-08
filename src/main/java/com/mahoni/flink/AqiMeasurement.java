@@ -92,6 +92,8 @@ public class AqiMeasurement {
                 aqi = AqiMeasurement.calculateAqi(6,0.405,0.504, o3Avg);
             } else if (o3Avg >= 0.505 && o3Avg <= 0.604) {
                 aqi = AqiMeasurement.calculateAqi(7,0.505,0.604, o3Avg);
+            } else {
+                aqi = AqiMeasurement.calculateAqi(7,0.505,0.604, o3Avg);
             }
 
             out.collect(Tuple3.of(key, aqi.f0,aqi.f1));
@@ -120,6 +122,8 @@ public class AqiMeasurement {
             } else if (so2Avg >= 36 && so2Avg <= 75) {
                 aqi = AqiMeasurement.calculateAqi(2,36,75, so2Avg);
             } else if( so2Avg >= 76 && so2Avg <= 185 ){
+                aqi = AqiMeasurement.calculateAqi(3,76,185, so2Avg);
+            } else {
                 aqi = AqiMeasurement.calculateAqi(3,76,185, so2Avg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
@@ -157,6 +161,8 @@ public class AqiMeasurement {
                 aqi = AqiMeasurement.calculateAqi(6,1250,1649, no2Avg);
             } else if (no2Avg >= 1650 && no2Avg <= 2049) {
                 aqi = AqiMeasurement.calculateAqi(7,1650,2049, no2Avg);
+            } else {
+                aqi = AqiMeasurement.calculateAqi(7,1650,2049, no2Avg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
@@ -192,6 +198,8 @@ public class AqiMeasurement {
             } else if (coAvg >= 30.5 && coAvg <= 40.4) {
                 aqi = AqiMeasurement.calculateAqi(6,30.5,40.4, coAvg);
             } else if (coAvg >= 40.5 && coAvg <= 50.4) {
+                aqi = AqiMeasurement.calculateAqi(7,40.5,50.4, coAvg);
+            } else {
                 aqi = AqiMeasurement.calculateAqi(7,40.5,50.4, coAvg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
@@ -229,6 +237,8 @@ public class AqiMeasurement {
                 aqi = AqiMeasurement.calculateAqi(6,250.5,350.4, pm25Avg);
             } else if (pm25Avg >= 350.5 && pm25Avg <= 500.4) {
                 aqi = AqiMeasurement.calculateAqi(7,350.5,500.4, pm25Avg);
+            } else {
+                aqi = AqiMeasurement.calculateAqi(7,350.5,500.4, pm25Avg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));
         }
@@ -264,6 +274,8 @@ public class AqiMeasurement {
             } else if (pm10Avg >= 425 && pm10Avg <= 504) {
                 aqi = AqiMeasurement.calculateAqi(6,425,504, pm10Avg);
             } else if (pm10Avg >= 505 && pm10Avg <= 604) {
+                aqi = AqiMeasurement.calculateAqi(7,505,604, pm10Avg);
+            } else {
                 aqi = AqiMeasurement.calculateAqi(7,505,604, pm10Avg);
             }
             out.collect(Tuple3.of(key,aqi.f0,aqi.f1));

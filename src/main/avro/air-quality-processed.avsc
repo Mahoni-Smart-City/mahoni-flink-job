@@ -9,7 +9,7 @@
     },
     {
       "name": "sensorId",
-      "type": "string"
+      "type": "long"
     },
     {
       "name": "timestamp",
@@ -73,14 +73,14 @@
     },
     {
       "name": "idLocation",
-      "type": "string"
+      "type": "long"
     },
     {
       "name": "subdistric",
       "type": "string"
     },
     {
-      "name": "city",
+      "name": "district",
       "type": "string"
     }
   ]
