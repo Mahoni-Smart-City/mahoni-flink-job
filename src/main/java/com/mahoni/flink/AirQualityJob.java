@@ -11,29 +11,46 @@ import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
+import org.apache.flink.api.common.serialization.SerializationSchema;
+import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.api.java.tuple.Tuple3;
 import org.apache.flink.configuration.Configuration;
+import org.apache.flink.connector.base.DeliveryGuarantee;
+import org.apache.flink.connector.kafka.sink.KafkaRecordSerializationSchema;
+import org.apache.flink.connector.kafka.sink.KafkaSink;
 import org.apache.flink.formats.avro.registry.confluent.ConfluentRegistryAvroDeserializationSchema;
+import org.apache.flink.formats.avro.registry.confluent.ConfluentRegistryAvroSerializationSchema;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
 import org.apache.flink.streaming.api.functions.co.ProcessJoinFunction;
+import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer;
+import org.apache.flink.streaming.connectors.kafka.KafkaSerializationSchema;
 import org.apache.flink.util.Collector;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.flink.streaming.connectors.kafka.KafkaSerializationSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Properties;
+import java.util.UUID;
 
 public class AirQualityJob {
-
-    Properties test = new Properties();
+    //private static final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     public static void main(String[] args) throws Exception {
 
@@ -98,7 +115,7 @@ public class AirQualityJob {
                 .keyBy(value -> value.f0)
                 .process(new AqiMeasurement.SearchMaxAqi());
 
-        aqi.print(); //hasil pencarian AQI Max dari semua indikator yang digunakan
+        //aqi.print(); //hasil pencarian AQI Max dari semua indikator yang digunakan
 
         DataStream<AirQualityProcessedSchema> airQualityProcessed = airQualityRaw
                 .keyBy((AirQualityRawSchema sensor) -> sensor.getSensorId())
@@ -107,27 +124,12 @@ public class AirQualityJob {
 
         airQualityProcessed.print(); //hasil data final berupa enrichmen dan hasil AQI yang sudah dicari
 
-        Properties kafkaProducerProps = new Properties();
-        kafkaProducerProps.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        kafkaProducerProps.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        kafkaProducerProps.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
-        kafkaProducerProps.setProperty(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
-
-        //DataStream<AirQualityProcessedSchema> airsensor = renewAqi.keyBy((AirQualityRawSchema sensor) -> sensor.getSensorId()).process(new CassandraEnrichment());
-        //airsensor.print();
-        /*
-        FlinkKafkaProducer<AirQualityRawSchema> producer = new FlinkKafkaProducer<>(
-                "air-quality-processed",
-                ConfluentRegistryAvroSerializationSchema.forSpecific(AirQualityRawSchema.class,"air-quality","http://localhost:8081"),
-                kafkaProducerProps,
-                FlinkKafkaProducer.Semantic.EXACTLY_ONCE);
-
-        renewAqi.addSink(producer);
-
-         */
+        airQualityProcessed.addSink(new SinkCassandra());
 
         env.execute("Air Quality Job");
     }
+
+
 
     public static class RenewAqi extends ProcessJoinFunction<AirQualityRawSchema, Tuple3<String, Integer, String>, AirQualityProcessedSchema> {
         private static final String CASSANDRA_KEYSPACE = "air_quality";
