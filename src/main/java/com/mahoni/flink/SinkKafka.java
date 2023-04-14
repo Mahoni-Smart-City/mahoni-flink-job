@@ -9,17 +9,12 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 import java.util.UUID;
 
-public class SinkCassandra implements SinkFunction<AirQualityProcessedSchema> {
+public class SinkKafka implements SinkFunction<AirQualityProcessedSchema> {
     Properties kafkaProducerProps = new Properties();
-    private final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
-
-    //Producer<String, AirQualityProcessedSchema> kafkaProducer = new KafkaProducer<>(kafkaProducerProps);
     @Override
     public void invoke(AirQualityProcessedSchema value) throws Exception {
 
@@ -32,11 +27,6 @@ public class SinkCassandra implements SinkFunction<AirQualityProcessedSchema> {
 
         String id = UUID.randomUUID().toString();
         ProducerRecord<String, AirQualityProcessedSchema> record = new ProducerRecord<>("air-quality-processed", id, value);
-        // mengirim record ke Kafka
-        //logger.info(record.toString());
-        //System.out.println(record);
         kafkaProducer.send(record);
-
-
     }
 }
