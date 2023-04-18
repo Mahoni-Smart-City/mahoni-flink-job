@@ -8,6 +8,11 @@
     </remote-repository>
     <remote-repository>
       <option name="id" value="apache.snapshots" />
+      <option name="name" value="Apache Snapshots" />
+      <option name="url" value="https://repository.apache.org/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="apache.snapshots" />
       <option name="name" value="Apache Development Snapshot Repository" />
       <option name="url" value="https://repository.apache.org/content/repositories/snapshots/" />
     </remote-repository>
@@ -25,6 +30,11 @@
       <option name="id" value="confluent" />
       <option name="name" value="confluent" />
       <option name="url" value="https://packages.confluent.io/maven/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ossrh" />
+      <option name="name" value="OSS Snapshot repository" />
+      <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots/" />
     </remote-repository>
   </component>
 </project>
