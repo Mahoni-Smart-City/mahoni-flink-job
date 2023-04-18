@@ -1,6 +1,6 @@
-package com.mahoni.flink;
+package com.mahoni.flink.air_quality.job;
 
-import com.mahoni.schema.AirQualityRawSchema;
+import com.mahoni.flink.schema.AirQualityRawSchema;
 import org.apache.flink.api.common.state.MapState;
 import org.apache.flink.api.common.state.MapStateDescriptor;
 import org.apache.flink.api.java.tuple.Tuple2;

@@ -1,10 +1,10 @@
-package com.mahoni.flink;
+package com.mahoni.flink.air_quality.job;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
-import com.mahoni.schema.AirQualityProcessedSchema;
-import com.mahoni.schema.AirQualityRawSchema;
+import com.mahoni.flink.schema.AirQualityProcessedSchema;
+import com.mahoni.flink.schema.AirQualityRawSchema;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.Properties;
 
 public class AirQualityJob {
-    //private static final Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 
     public static void main(String[] args) throws Exception {
 

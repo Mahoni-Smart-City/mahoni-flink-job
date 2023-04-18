@@ -3,32 +3,33 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.mahoni.schema;
+package com.mahoni.flink.schema;
 
 import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.SchemaStore;
 import org.apache.avro.specific.SpecificData;
+import org.apache.avro.util.Utf8;
 
 @org.apache.avro.specific.AvroGenerated
-public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 2831852033150391894L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AirQualityRawSchema\",\"namespace\":\"com.mahoni.schema\",\"fields\":[{\"name\":\"eventId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"sensorId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"aqi\",\"type\":\"double\"},{\"name\":\"co\",\"type\":\"double\"},{\"name\":\"no\",\"type\":\"double\"},{\"name\":\"no2\",\"type\":\"double\"},{\"name\":\"o3\",\"type\":\"double\"},{\"name\":\"so2\",\"type\":\"double\"},{\"name\":\"pm25\",\"type\":\"double\"},{\"name\":\"pm10\",\"type\":\"double\"},{\"name\":\"pm1\",\"type\":\"double\"},{\"name\":\"nh3\",\"type\":\"double\"},{\"name\":\"pressure\",\"type\":\"double\"},{\"name\":\"humidity\",\"type\":\"double\"}]}");
+public class AirQualityProcessedSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = 2943200598139437459L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AirQualityProcessedSchema\",\"namespace\":\"com.mahoni.schema\",\"fields\":[{\"name\":\"eventId\",\"type\":\"string\"},{\"name\":\"sensorId\",\"type\":\"long\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"aqi\",\"type\":\"double\"},{\"name\":\"category\",\"type\":\"string\"},{\"name\":\"co\",\"type\":\"double\"},{\"name\":\"no\",\"type\":\"double\"},{\"name\":\"no2\",\"type\":\"double\"},{\"name\":\"o3\",\"type\":\"double\"},{\"name\":\"so2\",\"type\":\"double\"},{\"name\":\"pm25\",\"type\":\"double\"},{\"name\":\"pm10\",\"type\":\"double\"},{\"name\":\"pm1\",\"type\":\"double\"},{\"name\":\"nh3\",\"type\":\"double\"},{\"name\":\"pressure\",\"type\":\"double\"},{\"name\":\"humidity\",\"type\":\"double\"},{\"name\":\"nameLocation\",\"type\":\"string\"},{\"name\":\"idLocation\",\"type\":\"long\"},{\"name\":\"subdistric\",\"type\":\"string\"},{\"name\":\"district\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<AirQualityRawSchema> ENCODER =
-      new BinaryMessageEncoder<AirQualityRawSchema>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<AirQualityProcessedSchema> ENCODER =
+      new BinaryMessageEncoder<AirQualityProcessedSchema>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<AirQualityRawSchema> DECODER =
-      new BinaryMessageDecoder<AirQualityRawSchema>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<AirQualityProcessedSchema> DECODER =
+      new BinaryMessageDecoder<AirQualityProcessedSchema>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageEncoder instance used by this class.
    * @return the message encoder used by this class
    */
-  public static BinaryMessageEncoder<AirQualityRawSchema> getEncoder() {
+  public static BinaryMessageEncoder<AirQualityProcessedSchema> getEncoder() {
     return ENCODER;
   }
 
@@ -36,7 +37,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Return the BinaryMessageDecoder instance used by this class.
    * @return the message decoder used by this class
    */
-  public static BinaryMessageDecoder<AirQualityRawSchema> getDecoder() {
+  public static BinaryMessageDecoder<AirQualityProcessedSchema> getDecoder() {
     return DECODER;
   }
 
@@ -45,12 +46,12 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
-  public static BinaryMessageDecoder<AirQualityRawSchema> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<AirQualityRawSchema>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<AirQualityProcessedSchema> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<AirQualityProcessedSchema>(MODEL$, SCHEMA$, resolver);
   }
 
   /**
-   * Serializes this AirQualityRawSchema to a ByteBuffer.
+   * Serializes this AirQualityProcessedSchema to a ByteBuffer.
    * @return a buffer holding the serialized data for this instance
    * @throws java.io.IOException if this instance could not be serialized
    */
@@ -59,20 +60,21 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   }
 
   /**
-   * Deserializes a AirQualityRawSchema from a ByteBuffer.
+   * Deserializes a AirQualityProcessedSchema from a ByteBuffer.
    * @param b a byte buffer holding serialized data for an instance of this class
-   * @return a AirQualityRawSchema instance decoded from the given buffer
+   * @return a AirQualityProcessedSchema instance decoded from the given buffer
    * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
    */
-  public static AirQualityRawSchema fromByteBuffer(
+  public static AirQualityProcessedSchema fromByteBuffer(
       java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
 
-   private String eventId;
-   private String sensorId;
+   private CharSequence eventId;
+   private long sensorId;
    private long timestamp;
    private double aqi;
+   private CharSequence category;
    private double co;
    private double no;
    private double no2;
@@ -84,13 +86,17 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    private double nh3;
    private double pressure;
    private double humidity;
+   private CharSequence nameLocation;
+   private long idLocation;
+   private CharSequence subdistric;
+   private CharSequence district;
 
   /**
    * Default constructor.  Note that this does not initialize fields
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public AirQualityRawSchema() {}
+  public AirQualityProcessedSchema() {}
 
   /**
    * All-args constructor.
@@ -98,6 +104,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * @param sensorId The new value for sensorId
    * @param timestamp The new value for timestamp
    * @param aqi The new value for aqi
+   * @param category The new value for category
    * @param co The new value for co
    * @param no The new value for no
    * @param no2 The new value for no2
@@ -109,12 +116,17 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * @param nh3 The new value for nh3
    * @param pressure The new value for pressure
    * @param humidity The new value for humidity
+   * @param nameLocation The new value for nameLocation
+   * @param idLocation The new value for idLocation
+   * @param subdistric The new value for subdistric
+   * @param district The new value for district
    */
-  public AirQualityRawSchema(String eventId, String sensorId, Long timestamp, Double aqi, Double co, Double no, Double no2, Double o3, Double so2, Double pm25, Double pm10, Double pm1, Double nh3, Double pressure, Double humidity) {
+  public AirQualityProcessedSchema(CharSequence eventId, Long sensorId, Long timestamp, Double aqi, CharSequence category, Double co, Double no, Double no2, Double o3, Double so2, Double pm25, Double pm10, Double pm1, Double nh3, Double pressure, Double humidity, CharSequence nameLocation, Long idLocation, CharSequence subdistric, CharSequence district) {
     this.eventId = eventId;
     this.sensorId = sensorId;
     this.timestamp = timestamp;
     this.aqi = aqi;
+    this.category = category;
     this.co = co;
     this.no = no;
     this.no2 = no2;
@@ -126,6 +138,10 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     this.nh3 = nh3;
     this.pressure = pressure;
     this.humidity = humidity;
+    this.nameLocation = nameLocation;
+    this.idLocation = idLocation;
+    this.subdistric = subdistric;
+    this.district = district;
   }
 
   public SpecificData getSpecificData() { return MODEL$; }
@@ -137,17 +153,22 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     case 1: return sensorId;
     case 2: return timestamp;
     case 3: return aqi;
-    case 4: return co;
-    case 5: return no;
-    case 6: return no2;
-    case 7: return o3;
-    case 8: return so2;
-    case 9: return pm25;
-    case 10: return pm10;
-    case 11: return pm1;
-    case 12: return nh3;
-    case 13: return pressure;
-    case 14: return humidity;
+    case 4: return category;
+    case 5: return co;
+    case 6: return no;
+    case 7: return no2;
+    case 8: return o3;
+    case 9: return so2;
+    case 10: return pm25;
+    case 11: return pm10;
+    case 12: return pm1;
+    case 13: return nh3;
+    case 14: return pressure;
+    case 15: return humidity;
+    case 16: return nameLocation;
+    case 17: return idLocation;
+    case 18: return subdistric;
+    case 19: return district;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -156,21 +177,26 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   @SuppressWarnings(value="unchecked")
   public void put(int field$, Object value$) {
     switch (field$) {
-    case 0: eventId = value$ != null ? value$.toString() : null; break;
-    case 1: sensorId = value$ != null ? value$.toString() : null; break;
+    case 0: eventId = (CharSequence)value$; break;
+    case 1: sensorId = (Long)value$; break;
     case 2: timestamp = (Long)value$; break;
     case 3: aqi = (Double)value$; break;
-    case 4: co = (Double)value$; break;
-    case 5: no = (Double)value$; break;
-    case 6: no2 = (Double)value$; break;
-    case 7: o3 = (Double)value$; break;
-    case 8: so2 = (Double)value$; break;
-    case 9: pm25 = (Double)value$; break;
-    case 10: pm10 = (Double)value$; break;
-    case 11: pm1 = (Double)value$; break;
-    case 12: nh3 = (Double)value$; break;
-    case 13: pressure = (Double)value$; break;
-    case 14: humidity = (Double)value$; break;
+    case 4: category = (CharSequence)value$; break;
+    case 5: co = (Double)value$; break;
+    case 6: no = (Double)value$; break;
+    case 7: no2 = (Double)value$; break;
+    case 8: o3 = (Double)value$; break;
+    case 9: so2 = (Double)value$; break;
+    case 10: pm25 = (Double)value$; break;
+    case 11: pm10 = (Double)value$; break;
+    case 12: pm1 = (Double)value$; break;
+    case 13: nh3 = (Double)value$; break;
+    case 14: pressure = (Double)value$; break;
+    case 15: humidity = (Double)value$; break;
+    case 16: nameLocation = (CharSequence)value$; break;
+    case 17: idLocation = (Long)value$; break;
+    case 18: subdistric = (CharSequence)value$; break;
+    case 19: district = (CharSequence)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -179,7 +205,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Gets the value of the 'eventId' field.
    * @return The value of the 'eventId' field.
    */
-  public String getEventId() {
+  public CharSequence getEventId() {
     return eventId;
   }
 
@@ -188,7 +214,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Sets the value of the 'eventId' field.
    * @param value the value to set.
    */
-  public void setEventId(String value) {
+  public void setEventId(CharSequence value) {
     this.eventId = value;
   }
 
@@ -196,7 +222,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Gets the value of the 'sensorId' field.
    * @return The value of the 'sensorId' field.
    */
-  public String getSensorId() {
+  public long getSensorId() {
     return sensorId;
   }
 
@@ -205,7 +231,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Sets the value of the 'sensorId' field.
    * @param value the value to set.
    */
-  public void setSensorId(String value) {
+  public void setSensorId(long value) {
     this.sensorId = value;
   }
 
@@ -241,6 +267,23 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    */
   public void setAqi(double value) {
     this.aqi = value;
+  }
+
+  /**
+   * Gets the value of the 'category' field.
+   * @return The value of the 'category' field.
+   */
+  public CharSequence getCategory() {
+    return category;
+  }
+
+
+  /**
+   * Sets the value of the 'category' field.
+   * @param value the value to set.
+   */
+  public void setCategory(CharSequence value) {
+    this.category = value;
   }
 
   /**
@@ -431,17 +474,85 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   }
 
   /**
-   * Creates a new AirQualityRawSchema RecordBuilder.
-   * @return A new AirQualityRawSchema RecordBuilder
+   * Gets the value of the 'nameLocation' field.
+   * @return The value of the 'nameLocation' field.
+   */
+  public CharSequence getNameLocation() {
+    return nameLocation;
+  }
+
+
+  /**
+   * Sets the value of the 'nameLocation' field.
+   * @param value the value to set.
+   */
+  public void setNameLocation(CharSequence value) {
+    this.nameLocation = value;
+  }
+
+  /**
+   * Gets the value of the 'idLocation' field.
+   * @return The value of the 'idLocation' field.
+   */
+  public long getIdLocation() {
+    return idLocation;
+  }
+
+
+  /**
+   * Sets the value of the 'idLocation' field.
+   * @param value the value to set.
+   */
+  public void setIdLocation(long value) {
+    this.idLocation = value;
+  }
+
+  /**
+   * Gets the value of the 'subdistric' field.
+   * @return The value of the 'subdistric' field.
+   */
+  public CharSequence getSubdistric() {
+    return subdistric;
+  }
+
+
+  /**
+   * Sets the value of the 'subdistric' field.
+   * @param value the value to set.
+   */
+  public void setSubdistric(CharSequence value) {
+    this.subdistric = value;
+  }
+
+  /**
+   * Gets the value of the 'district' field.
+   * @return The value of the 'district' field.
+   */
+  public CharSequence getDistrict() {
+    return district;
+  }
+
+
+  /**
+   * Sets the value of the 'district' field.
+   * @param value the value to set.
+   */
+  public void setDistrict(CharSequence value) {
+    this.district = value;
+  }
+
+  /**
+   * Creates a new AirQualityProcessedSchema RecordBuilder.
+   * @return A new AirQualityProcessedSchema RecordBuilder
    */
   public static Builder newBuilder() {
     return new Builder();
   }
 
   /**
-   * Creates a new AirQualityRawSchema RecordBuilder by copying an existing Builder.
+   * Creates a new AirQualityProcessedSchema RecordBuilder by copying an existing Builder.
    * @param other The existing builder to copy.
-   * @return A new AirQualityRawSchema RecordBuilder
+   * @return A new AirQualityProcessedSchema RecordBuilder
    */
   public static Builder newBuilder(Builder other) {
     if (other == null) {
@@ -452,11 +563,11 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   }
 
   /**
-   * Creates a new AirQualityRawSchema RecordBuilder by copying an existing AirQualityRawSchema instance.
+   * Creates a new AirQualityProcessedSchema RecordBuilder by copying an existing AirQualityProcessedSchema instance.
    * @param other The existing instance to copy.
-   * @return A new AirQualityRawSchema RecordBuilder
+   * @return A new AirQualityProcessedSchema RecordBuilder
    */
-  public static Builder newBuilder(AirQualityRawSchema other) {
+  public static Builder newBuilder(AirQualityProcessedSchema other) {
     if (other == null) {
       return new Builder();
     } else {
@@ -465,16 +576,17 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   }
 
   /**
-   * RecordBuilder for AirQualityRawSchema instances.
+   * RecordBuilder for AirQualityProcessedSchema instances.
    */
   @org.apache.avro.specific.AvroGenerated
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<AirQualityRawSchema>
-    implements org.apache.avro.data.RecordBuilder<AirQualityRawSchema> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<AirQualityProcessedSchema>
+    implements org.apache.avro.data.RecordBuilder<AirQualityProcessedSchema> {
 
-    private String eventId;
-    private String sensorId;
+    private CharSequence eventId;
+    private long sensorId;
     private long timestamp;
     private double aqi;
+    private CharSequence category;
     private double co;
     private double no;
     private double no2;
@@ -486,6 +598,10 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     private double nh3;
     private double pressure;
     private double humidity;
+    private CharSequence nameLocation;
+    private long idLocation;
+    private CharSequence subdistric;
+    private CharSequence district;
 
     /** Creates a new Builder */
     private Builder() {
@@ -514,57 +630,77 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
         this.aqi = data().deepCopy(fields()[3].schema(), other.aqi);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.co)) {
-        this.co = data().deepCopy(fields()[4].schema(), other.co);
+      if (isValidValue(fields()[4], other.category)) {
+        this.category = data().deepCopy(fields()[4].schema(), other.category);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
       }
-      if (isValidValue(fields()[5], other.no)) {
-        this.no = data().deepCopy(fields()[5].schema(), other.no);
+      if (isValidValue(fields()[5], other.co)) {
+        this.co = data().deepCopy(fields()[5].schema(), other.co);
         fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
-      if (isValidValue(fields()[6], other.no2)) {
-        this.no2 = data().deepCopy(fields()[6].schema(), other.no2);
+      if (isValidValue(fields()[6], other.no)) {
+        this.no = data().deepCopy(fields()[6].schema(), other.no);
         fieldSetFlags()[6] = other.fieldSetFlags()[6];
       }
-      if (isValidValue(fields()[7], other.o3)) {
-        this.o3 = data().deepCopy(fields()[7].schema(), other.o3);
+      if (isValidValue(fields()[7], other.no2)) {
+        this.no2 = data().deepCopy(fields()[7].schema(), other.no2);
         fieldSetFlags()[7] = other.fieldSetFlags()[7];
       }
-      if (isValidValue(fields()[8], other.so2)) {
-        this.so2 = data().deepCopy(fields()[8].schema(), other.so2);
+      if (isValidValue(fields()[8], other.o3)) {
+        this.o3 = data().deepCopy(fields()[8].schema(), other.o3);
         fieldSetFlags()[8] = other.fieldSetFlags()[8];
       }
-      if (isValidValue(fields()[9], other.pm25)) {
-        this.pm25 = data().deepCopy(fields()[9].schema(), other.pm25);
+      if (isValidValue(fields()[9], other.so2)) {
+        this.so2 = data().deepCopy(fields()[9].schema(), other.so2);
         fieldSetFlags()[9] = other.fieldSetFlags()[9];
       }
-      if (isValidValue(fields()[10], other.pm10)) {
-        this.pm10 = data().deepCopy(fields()[10].schema(), other.pm10);
+      if (isValidValue(fields()[10], other.pm25)) {
+        this.pm25 = data().deepCopy(fields()[10].schema(), other.pm25);
         fieldSetFlags()[10] = other.fieldSetFlags()[10];
       }
-      if (isValidValue(fields()[11], other.pm1)) {
-        this.pm1 = data().deepCopy(fields()[11].schema(), other.pm1);
+      if (isValidValue(fields()[11], other.pm10)) {
+        this.pm10 = data().deepCopy(fields()[11].schema(), other.pm10);
         fieldSetFlags()[11] = other.fieldSetFlags()[11];
       }
-      if (isValidValue(fields()[12], other.nh3)) {
-        this.nh3 = data().deepCopy(fields()[12].schema(), other.nh3);
+      if (isValidValue(fields()[12], other.pm1)) {
+        this.pm1 = data().deepCopy(fields()[12].schema(), other.pm1);
         fieldSetFlags()[12] = other.fieldSetFlags()[12];
       }
-      if (isValidValue(fields()[13], other.pressure)) {
-        this.pressure = data().deepCopy(fields()[13].schema(), other.pressure);
+      if (isValidValue(fields()[13], other.nh3)) {
+        this.nh3 = data().deepCopy(fields()[13].schema(), other.nh3);
         fieldSetFlags()[13] = other.fieldSetFlags()[13];
       }
-      if (isValidValue(fields()[14], other.humidity)) {
-        this.humidity = data().deepCopy(fields()[14].schema(), other.humidity);
+      if (isValidValue(fields()[14], other.pressure)) {
+        this.pressure = data().deepCopy(fields()[14].schema(), other.pressure);
         fieldSetFlags()[14] = other.fieldSetFlags()[14];
+      }
+      if (isValidValue(fields()[15], other.humidity)) {
+        this.humidity = data().deepCopy(fields()[15].schema(), other.humidity);
+        fieldSetFlags()[15] = other.fieldSetFlags()[15];
+      }
+      if (isValidValue(fields()[16], other.nameLocation)) {
+        this.nameLocation = data().deepCopy(fields()[16].schema(), other.nameLocation);
+        fieldSetFlags()[16] = other.fieldSetFlags()[16];
+      }
+      if (isValidValue(fields()[17], other.idLocation)) {
+        this.idLocation = data().deepCopy(fields()[17].schema(), other.idLocation);
+        fieldSetFlags()[17] = other.fieldSetFlags()[17];
+      }
+      if (isValidValue(fields()[18], other.subdistric)) {
+        this.subdistric = data().deepCopy(fields()[18].schema(), other.subdistric);
+        fieldSetFlags()[18] = other.fieldSetFlags()[18];
+      }
+      if (isValidValue(fields()[19], other.district)) {
+        this.district = data().deepCopy(fields()[19].schema(), other.district);
+        fieldSetFlags()[19] = other.fieldSetFlags()[19];
       }
     }
 
     /**
-     * Creates a Builder by copying an existing AirQualityRawSchema instance
+     * Creates a Builder by copying an existing AirQualityProcessedSchema instance
      * @param other The existing instance to copy.
      */
-    private Builder(AirQualityRawSchema other) {
+    private Builder(AirQualityProcessedSchema other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.eventId)) {
         this.eventId = data().deepCopy(fields()[0].schema(), other.eventId);
@@ -582,49 +718,69 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
         this.aqi = data().deepCopy(fields()[3].schema(), other.aqi);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.co)) {
-        this.co = data().deepCopy(fields()[4].schema(), other.co);
+      if (isValidValue(fields()[4], other.category)) {
+        this.category = data().deepCopy(fields()[4].schema(), other.category);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.no)) {
-        this.no = data().deepCopy(fields()[5].schema(), other.no);
+      if (isValidValue(fields()[5], other.co)) {
+        this.co = data().deepCopy(fields()[5].schema(), other.co);
         fieldSetFlags()[5] = true;
       }
-      if (isValidValue(fields()[6], other.no2)) {
-        this.no2 = data().deepCopy(fields()[6].schema(), other.no2);
+      if (isValidValue(fields()[6], other.no)) {
+        this.no = data().deepCopy(fields()[6].schema(), other.no);
         fieldSetFlags()[6] = true;
       }
-      if (isValidValue(fields()[7], other.o3)) {
-        this.o3 = data().deepCopy(fields()[7].schema(), other.o3);
+      if (isValidValue(fields()[7], other.no2)) {
+        this.no2 = data().deepCopy(fields()[7].schema(), other.no2);
         fieldSetFlags()[7] = true;
       }
-      if (isValidValue(fields()[8], other.so2)) {
-        this.so2 = data().deepCopy(fields()[8].schema(), other.so2);
+      if (isValidValue(fields()[8], other.o3)) {
+        this.o3 = data().deepCopy(fields()[8].schema(), other.o3);
         fieldSetFlags()[8] = true;
       }
-      if (isValidValue(fields()[9], other.pm25)) {
-        this.pm25 = data().deepCopy(fields()[9].schema(), other.pm25);
+      if (isValidValue(fields()[9], other.so2)) {
+        this.so2 = data().deepCopy(fields()[9].schema(), other.so2);
         fieldSetFlags()[9] = true;
       }
-      if (isValidValue(fields()[10], other.pm10)) {
-        this.pm10 = data().deepCopy(fields()[10].schema(), other.pm10);
+      if (isValidValue(fields()[10], other.pm25)) {
+        this.pm25 = data().deepCopy(fields()[10].schema(), other.pm25);
         fieldSetFlags()[10] = true;
       }
-      if (isValidValue(fields()[11], other.pm1)) {
-        this.pm1 = data().deepCopy(fields()[11].schema(), other.pm1);
+      if (isValidValue(fields()[11], other.pm10)) {
+        this.pm10 = data().deepCopy(fields()[11].schema(), other.pm10);
         fieldSetFlags()[11] = true;
       }
-      if (isValidValue(fields()[12], other.nh3)) {
-        this.nh3 = data().deepCopy(fields()[12].schema(), other.nh3);
+      if (isValidValue(fields()[12], other.pm1)) {
+        this.pm1 = data().deepCopy(fields()[12].schema(), other.pm1);
         fieldSetFlags()[12] = true;
       }
-      if (isValidValue(fields()[13], other.pressure)) {
-        this.pressure = data().deepCopy(fields()[13].schema(), other.pressure);
+      if (isValidValue(fields()[13], other.nh3)) {
+        this.nh3 = data().deepCopy(fields()[13].schema(), other.nh3);
         fieldSetFlags()[13] = true;
       }
-      if (isValidValue(fields()[14], other.humidity)) {
-        this.humidity = data().deepCopy(fields()[14].schema(), other.humidity);
+      if (isValidValue(fields()[14], other.pressure)) {
+        this.pressure = data().deepCopy(fields()[14].schema(), other.pressure);
         fieldSetFlags()[14] = true;
+      }
+      if (isValidValue(fields()[15], other.humidity)) {
+        this.humidity = data().deepCopy(fields()[15].schema(), other.humidity);
+        fieldSetFlags()[15] = true;
+      }
+      if (isValidValue(fields()[16], other.nameLocation)) {
+        this.nameLocation = data().deepCopy(fields()[16].schema(), other.nameLocation);
+        fieldSetFlags()[16] = true;
+      }
+      if (isValidValue(fields()[17], other.idLocation)) {
+        this.idLocation = data().deepCopy(fields()[17].schema(), other.idLocation);
+        fieldSetFlags()[17] = true;
+      }
+      if (isValidValue(fields()[18], other.subdistric)) {
+        this.subdistric = data().deepCopy(fields()[18].schema(), other.subdistric);
+        fieldSetFlags()[18] = true;
+      }
+      if (isValidValue(fields()[19], other.district)) {
+        this.district = data().deepCopy(fields()[19].schema(), other.district);
+        fieldSetFlags()[19] = true;
       }
     }
 
@@ -632,7 +788,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Gets the value of the 'eventId' field.
       * @return The value.
       */
-    public String getEventId() {
+    public CharSequence getEventId() {
       return eventId;
     }
 
@@ -642,7 +798,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'eventId'.
       * @return This builder.
       */
-    public Builder setEventId(String value) {
+    public Builder setEventId(CharSequence value) {
       validate(fields()[0], value);
       this.eventId = value;
       fieldSetFlags()[0] = true;
@@ -672,7 +828,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Gets the value of the 'sensorId' field.
       * @return The value.
       */
-    public String getSensorId() {
+    public long getSensorId() {
       return sensorId;
     }
 
@@ -682,7 +838,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'sensorId'.
       * @return This builder.
       */
-    public Builder setSensorId(String value) {
+    public Builder setSensorId(long value) {
       validate(fields()[1], value);
       this.sensorId = value;
       fieldSetFlags()[1] = true;
@@ -703,7 +859,6 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearSensorId() {
-      sensorId = null;
       fieldSetFlags()[1] = false;
       return this;
     }
@@ -787,6 +942,46 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     }
 
     /**
+      * Gets the value of the 'category' field.
+      * @return The value.
+      */
+    public CharSequence getCategory() {
+      return category;
+    }
+
+
+    /**
+      * Sets the value of the 'category' field.
+      * @param value The value of 'category'.
+      * @return This builder.
+      */
+    public Builder setCategory(CharSequence value) {
+      validate(fields()[4], value);
+      this.category = value;
+      fieldSetFlags()[4] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'category' field has been set.
+      * @return True if the 'category' field has been set, false otherwise.
+      */
+    public boolean hasCategory() {
+      return fieldSetFlags()[4];
+    }
+
+
+    /**
+      * Clears the value of the 'category' field.
+      * @return This builder.
+      */
+    public Builder clearCategory() {
+      category = null;
+      fieldSetFlags()[4] = false;
+      return this;
+    }
+
+    /**
       * Gets the value of the 'co' field.
       * @return The value.
       */
@@ -801,9 +996,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setCo(double value) {
-      validate(fields()[4], value);
+      validate(fields()[5], value);
       this.co = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[5] = true;
       return this;
     }
 
@@ -812,7 +1007,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'co' field has been set, false otherwise.
       */
     public boolean hasCo() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[5];
     }
 
 
@@ -821,7 +1016,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearCo() {
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[5] = false;
       return this;
     }
 
@@ -840,9 +1035,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setNo(double value) {
-      validate(fields()[5], value);
+      validate(fields()[6], value);
       this.no = value;
-      fieldSetFlags()[5] = true;
+      fieldSetFlags()[6] = true;
       return this;
     }
 
@@ -851,7 +1046,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'no' field has been set, false otherwise.
       */
     public boolean hasNo() {
-      return fieldSetFlags()[5];
+      return fieldSetFlags()[6];
     }
 
 
@@ -860,7 +1055,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearNo() {
-      fieldSetFlags()[5] = false;
+      fieldSetFlags()[6] = false;
       return this;
     }
 
@@ -879,9 +1074,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setNo2(double value) {
-      validate(fields()[6], value);
+      validate(fields()[7], value);
       this.no2 = value;
-      fieldSetFlags()[6] = true;
+      fieldSetFlags()[7] = true;
       return this;
     }
 
@@ -890,7 +1085,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'no2' field has been set, false otherwise.
       */
     public boolean hasNo2() {
-      return fieldSetFlags()[6];
+      return fieldSetFlags()[7];
     }
 
 
@@ -899,7 +1094,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearNo2() {
-      fieldSetFlags()[6] = false;
+      fieldSetFlags()[7] = false;
       return this;
     }
 
@@ -918,9 +1113,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setO3(double value) {
-      validate(fields()[7], value);
+      validate(fields()[8], value);
       this.o3 = value;
-      fieldSetFlags()[7] = true;
+      fieldSetFlags()[8] = true;
       return this;
     }
 
@@ -929,7 +1124,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'o3' field has been set, false otherwise.
       */
     public boolean hasO3() {
-      return fieldSetFlags()[7];
+      return fieldSetFlags()[8];
     }
 
 
@@ -938,7 +1133,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearO3() {
-      fieldSetFlags()[7] = false;
+      fieldSetFlags()[8] = false;
       return this;
     }
 
@@ -957,9 +1152,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setSo2(double value) {
-      validate(fields()[8], value);
+      validate(fields()[9], value);
       this.so2 = value;
-      fieldSetFlags()[8] = true;
+      fieldSetFlags()[9] = true;
       return this;
     }
 
@@ -968,7 +1163,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'so2' field has been set, false otherwise.
       */
     public boolean hasSo2() {
-      return fieldSetFlags()[8];
+      return fieldSetFlags()[9];
     }
 
 
@@ -977,7 +1172,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearSo2() {
-      fieldSetFlags()[8] = false;
+      fieldSetFlags()[9] = false;
       return this;
     }
 
@@ -996,9 +1191,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setPm25(double value) {
-      validate(fields()[9], value);
+      validate(fields()[10], value);
       this.pm25 = value;
-      fieldSetFlags()[9] = true;
+      fieldSetFlags()[10] = true;
       return this;
     }
 
@@ -1007,7 +1202,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'pm25' field has been set, false otherwise.
       */
     public boolean hasPm25() {
-      return fieldSetFlags()[9];
+      return fieldSetFlags()[10];
     }
 
 
@@ -1016,7 +1211,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearPm25() {
-      fieldSetFlags()[9] = false;
+      fieldSetFlags()[10] = false;
       return this;
     }
 
@@ -1035,9 +1230,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setPm10(double value) {
-      validate(fields()[10], value);
+      validate(fields()[11], value);
       this.pm10 = value;
-      fieldSetFlags()[10] = true;
+      fieldSetFlags()[11] = true;
       return this;
     }
 
@@ -1046,7 +1241,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'pm10' field has been set, false otherwise.
       */
     public boolean hasPm10() {
-      return fieldSetFlags()[10];
+      return fieldSetFlags()[11];
     }
 
 
@@ -1055,7 +1250,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearPm10() {
-      fieldSetFlags()[10] = false;
+      fieldSetFlags()[11] = false;
       return this;
     }
 
@@ -1074,9 +1269,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setPm1(double value) {
-      validate(fields()[11], value);
+      validate(fields()[12], value);
       this.pm1 = value;
-      fieldSetFlags()[11] = true;
+      fieldSetFlags()[12] = true;
       return this;
     }
 
@@ -1085,7 +1280,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'pm1' field has been set, false otherwise.
       */
     public boolean hasPm1() {
-      return fieldSetFlags()[11];
+      return fieldSetFlags()[12];
     }
 
 
@@ -1094,7 +1289,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearPm1() {
-      fieldSetFlags()[11] = false;
+      fieldSetFlags()[12] = false;
       return this;
     }
 
@@ -1113,9 +1308,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setNh3(double value) {
-      validate(fields()[12], value);
+      validate(fields()[13], value);
       this.nh3 = value;
-      fieldSetFlags()[12] = true;
+      fieldSetFlags()[13] = true;
       return this;
     }
 
@@ -1124,7 +1319,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'nh3' field has been set, false otherwise.
       */
     public boolean hasNh3() {
-      return fieldSetFlags()[12];
+      return fieldSetFlags()[13];
     }
 
 
@@ -1133,7 +1328,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearNh3() {
-      fieldSetFlags()[12] = false;
+      fieldSetFlags()[13] = false;
       return this;
     }
 
@@ -1152,9 +1347,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setPressure(double value) {
-      validate(fields()[13], value);
+      validate(fields()[14], value);
       this.pressure = value;
-      fieldSetFlags()[13] = true;
+      fieldSetFlags()[14] = true;
       return this;
     }
 
@@ -1163,7 +1358,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'pressure' field has been set, false otherwise.
       */
     public boolean hasPressure() {
-      return fieldSetFlags()[13];
+      return fieldSetFlags()[14];
     }
 
 
@@ -1172,7 +1367,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearPressure() {
-      fieldSetFlags()[13] = false;
+      fieldSetFlags()[14] = false;
       return this;
     }
 
@@ -1191,9 +1386,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder setHumidity(double value) {
-      validate(fields()[14], value);
+      validate(fields()[15], value);
       this.humidity = value;
-      fieldSetFlags()[14] = true;
+      fieldSetFlags()[15] = true;
       return this;
     }
 
@@ -1202,7 +1397,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return True if the 'humidity' field has been set, false otherwise.
       */
     public boolean hasHumidity() {
-      return fieldSetFlags()[14];
+      return fieldSetFlags()[15];
     }
 
 
@@ -1211,30 +1406,194 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @return This builder.
       */
     public Builder clearHumidity() {
-      fieldSetFlags()[14] = false;
+      fieldSetFlags()[15] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'nameLocation' field.
+      * @return The value.
+      */
+    public CharSequence getNameLocation() {
+      return nameLocation;
+    }
+
+
+    /**
+      * Sets the value of the 'nameLocation' field.
+      * @param value The value of 'nameLocation'.
+      * @return This builder.
+      */
+    public Builder setNameLocation(CharSequence value) {
+      validate(fields()[16], value);
+      this.nameLocation = value;
+      fieldSetFlags()[16] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'nameLocation' field has been set.
+      * @return True if the 'nameLocation' field has been set, false otherwise.
+      */
+    public boolean hasNameLocation() {
+      return fieldSetFlags()[16];
+    }
+
+
+    /**
+      * Clears the value of the 'nameLocation' field.
+      * @return This builder.
+      */
+    public Builder clearNameLocation() {
+      nameLocation = null;
+      fieldSetFlags()[16] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'idLocation' field.
+      * @return The value.
+      */
+    public long getIdLocation() {
+      return idLocation;
+    }
+
+
+    /**
+      * Sets the value of the 'idLocation' field.
+      * @param value The value of 'idLocation'.
+      * @return This builder.
+      */
+    public Builder setIdLocation(long value) {
+      validate(fields()[17], value);
+      this.idLocation = value;
+      fieldSetFlags()[17] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'idLocation' field has been set.
+      * @return True if the 'idLocation' field has been set, false otherwise.
+      */
+    public boolean hasIdLocation() {
+      return fieldSetFlags()[17];
+    }
+
+
+    /**
+      * Clears the value of the 'idLocation' field.
+      * @return This builder.
+      */
+    public Builder clearIdLocation() {
+      fieldSetFlags()[17] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'subdistric' field.
+      * @return The value.
+      */
+    public CharSequence getSubdistric() {
+      return subdistric;
+    }
+
+
+    /**
+      * Sets the value of the 'subdistric' field.
+      * @param value The value of 'subdistric'.
+      * @return This builder.
+      */
+    public Builder setSubdistric(CharSequence value) {
+      validate(fields()[18], value);
+      this.subdistric = value;
+      fieldSetFlags()[18] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'subdistric' field has been set.
+      * @return True if the 'subdistric' field has been set, false otherwise.
+      */
+    public boolean hasSubdistric() {
+      return fieldSetFlags()[18];
+    }
+
+
+    /**
+      * Clears the value of the 'subdistric' field.
+      * @return This builder.
+      */
+    public Builder clearSubdistric() {
+      subdistric = null;
+      fieldSetFlags()[18] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'district' field.
+      * @return The value.
+      */
+    public CharSequence getDistrict() {
+      return district;
+    }
+
+
+    /**
+      * Sets the value of the 'district' field.
+      * @param value The value of 'district'.
+      * @return This builder.
+      */
+    public Builder setDistrict(CharSequence value) {
+      validate(fields()[19], value);
+      this.district = value;
+      fieldSetFlags()[19] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'district' field has been set.
+      * @return True if the 'district' field has been set, false otherwise.
+      */
+    public boolean hasDistrict() {
+      return fieldSetFlags()[19];
+    }
+
+
+    /**
+      * Clears the value of the 'district' field.
+      * @return This builder.
+      */
+    public Builder clearDistrict() {
+      district = null;
+      fieldSetFlags()[19] = false;
       return this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public AirQualityRawSchema build() {
+    public AirQualityProcessedSchema build() {
       try {
-        AirQualityRawSchema record = new AirQualityRawSchema();
-        record.eventId = fieldSetFlags()[0] ? this.eventId : (String) defaultValue(fields()[0]);
-        record.sensorId = fieldSetFlags()[1] ? this.sensorId : (String) defaultValue(fields()[1]);
+        AirQualityProcessedSchema record = new AirQualityProcessedSchema();
+        record.eventId = fieldSetFlags()[0] ? this.eventId : (CharSequence) defaultValue(fields()[0]);
+        record.sensorId = fieldSetFlags()[1] ? this.sensorId : (Long) defaultValue(fields()[1]);
         record.timestamp = fieldSetFlags()[2] ? this.timestamp : (Long) defaultValue(fields()[2]);
         record.aqi = fieldSetFlags()[3] ? this.aqi : (Double) defaultValue(fields()[3]);
-        record.co = fieldSetFlags()[4] ? this.co : (Double) defaultValue(fields()[4]);
-        record.no = fieldSetFlags()[5] ? this.no : (Double) defaultValue(fields()[5]);
-        record.no2 = fieldSetFlags()[6] ? this.no2 : (Double) defaultValue(fields()[6]);
-        record.o3 = fieldSetFlags()[7] ? this.o3 : (Double) defaultValue(fields()[7]);
-        record.so2 = fieldSetFlags()[8] ? this.so2 : (Double) defaultValue(fields()[8]);
-        record.pm25 = fieldSetFlags()[9] ? this.pm25 : (Double) defaultValue(fields()[9]);
-        record.pm10 = fieldSetFlags()[10] ? this.pm10 : (Double) defaultValue(fields()[10]);
-        record.pm1 = fieldSetFlags()[11] ? this.pm1 : (Double) defaultValue(fields()[11]);
-        record.nh3 = fieldSetFlags()[12] ? this.nh3 : (Double) defaultValue(fields()[12]);
-        record.pressure = fieldSetFlags()[13] ? this.pressure : (Double) defaultValue(fields()[13]);
-        record.humidity = fieldSetFlags()[14] ? this.humidity : (Double) defaultValue(fields()[14]);
+        record.category = fieldSetFlags()[4] ? this.category : (CharSequence) defaultValue(fields()[4]);
+        record.co = fieldSetFlags()[5] ? this.co : (Double) defaultValue(fields()[5]);
+        record.no = fieldSetFlags()[6] ? this.no : (Double) defaultValue(fields()[6]);
+        record.no2 = fieldSetFlags()[7] ? this.no2 : (Double) defaultValue(fields()[7]);
+        record.o3 = fieldSetFlags()[8] ? this.o3 : (Double) defaultValue(fields()[8]);
+        record.so2 = fieldSetFlags()[9] ? this.so2 : (Double) defaultValue(fields()[9]);
+        record.pm25 = fieldSetFlags()[10] ? this.pm25 : (Double) defaultValue(fields()[10]);
+        record.pm10 = fieldSetFlags()[11] ? this.pm10 : (Double) defaultValue(fields()[11]);
+        record.pm1 = fieldSetFlags()[12] ? this.pm1 : (Double) defaultValue(fields()[12]);
+        record.nh3 = fieldSetFlags()[13] ? this.nh3 : (Double) defaultValue(fields()[13]);
+        record.pressure = fieldSetFlags()[14] ? this.pressure : (Double) defaultValue(fields()[14]);
+        record.humidity = fieldSetFlags()[15] ? this.humidity : (Double) defaultValue(fields()[15]);
+        record.nameLocation = fieldSetFlags()[16] ? this.nameLocation : (CharSequence) defaultValue(fields()[16]);
+        record.idLocation = fieldSetFlags()[17] ? this.idLocation : (Long) defaultValue(fields()[17]);
+        record.subdistric = fieldSetFlags()[18] ? this.subdistric : (CharSequence) defaultValue(fields()[18]);
+        record.district = fieldSetFlags()[19] ? this.district : (CharSequence) defaultValue(fields()[19]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -1245,8 +1604,8 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<AirQualityRawSchema>
-    WRITER$ = (org.apache.avro.io.DatumWriter<AirQualityRawSchema>)MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<AirQualityProcessedSchema>
+    WRITER$ = (org.apache.avro.io.DatumWriter<AirQualityProcessedSchema>)MODEL$.createDatumWriter(SCHEMA$);
 
   @Override public void writeExternal(java.io.ObjectOutput out)
     throws java.io.IOException {
@@ -1254,8 +1613,8 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<AirQualityRawSchema>
-    READER$ = (org.apache.avro.io.DatumReader<AirQualityRawSchema>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<AirQualityProcessedSchema>
+    READER$ = (org.apache.avro.io.DatumReader<AirQualityProcessedSchema>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {
@@ -1269,11 +1628,13 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   {
     out.writeString(this.eventId);
 
-    out.writeString(this.sensorId);
+    out.writeLong(this.sensorId);
 
     out.writeLong(this.timestamp);
 
     out.writeDouble(this.aqi);
+
+    out.writeString(this.category);
 
     out.writeDouble(this.co);
 
@@ -1297,6 +1658,14 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
 
     out.writeDouble(this.humidity);
 
+    out.writeString(this.nameLocation);
+
+    out.writeLong(this.idLocation);
+
+    out.writeString(this.subdistric);
+
+    out.writeString(this.district);
+
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -1304,13 +1673,15 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.eventId = in.readString();
+      this.eventId = in.readString(this.eventId instanceof Utf8 ? (Utf8)this.eventId : null);
 
-      this.sensorId = in.readString();
+      this.sensorId = in.readLong();
 
       this.timestamp = in.readLong();
 
       this.aqi = in.readDouble();
+
+      this.category = in.readString(this.category instanceof Utf8 ? (Utf8)this.category : null);
 
       this.co = in.readDouble();
 
@@ -1334,15 +1705,23 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
 
       this.humidity = in.readDouble();
 
+      this.nameLocation = in.readString(this.nameLocation instanceof Utf8 ? (Utf8)this.nameLocation : null);
+
+      this.idLocation = in.readLong();
+
+      this.subdistric = in.readString(this.subdistric instanceof Utf8 ? (Utf8)this.subdistric : null);
+
+      this.district = in.readString(this.district instanceof Utf8 ? (Utf8)this.district : null);
+
     } else {
-      for (int i = 0; i < 15; i++) {
+      for (int i = 0; i < 20; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.eventId = in.readString();
+          this.eventId = in.readString(this.eventId instanceof Utf8 ? (Utf8)this.eventId : null);
           break;
 
         case 1:
-          this.sensorId = in.readString();
+          this.sensorId = in.readLong();
           break;
 
         case 2:
@@ -1354,47 +1733,67 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
           break;
 
         case 4:
-          this.co = in.readDouble();
+          this.category = in.readString(this.category instanceof Utf8 ? (Utf8)this.category : null);
           break;
 
         case 5:
-          this.no = in.readDouble();
+          this.co = in.readDouble();
           break;
 
         case 6:
-          this.no2 = in.readDouble();
+          this.no = in.readDouble();
           break;
 
         case 7:
-          this.o3 = in.readDouble();
+          this.no2 = in.readDouble();
           break;
 
         case 8:
-          this.so2 = in.readDouble();
+          this.o3 = in.readDouble();
           break;
 
         case 9:
-          this.pm25 = in.readDouble();
+          this.so2 = in.readDouble();
           break;
 
         case 10:
-          this.pm10 = in.readDouble();
+          this.pm25 = in.readDouble();
           break;
 
         case 11:
-          this.pm1 = in.readDouble();
+          this.pm10 = in.readDouble();
           break;
 
         case 12:
-          this.nh3 = in.readDouble();
+          this.pm1 = in.readDouble();
           break;
 
         case 13:
-          this.pressure = in.readDouble();
+          this.nh3 = in.readDouble();
           break;
 
         case 14:
+          this.pressure = in.readDouble();
+          break;
+
+        case 15:
           this.humidity = in.readDouble();
+          break;
+
+        case 16:
+          this.nameLocation = in.readString(this.nameLocation instanceof Utf8 ? (Utf8)this.nameLocation : null);
+          break;
+
+        case 17:
+          this.idLocation = in.readLong();
+          break;
+
+        case 18:
+          this.subdistric = in.readString(this.subdistric instanceof Utf8 ? (Utf8)this.subdistric : null);
+          break;
+
+        case 19:
+          this.district = in.readString(this.district instanceof Utf8 ? (Utf8)this.district : null);
           break;
 
         default:

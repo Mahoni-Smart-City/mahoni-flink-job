@@ -1,6 +1,6 @@
-package com.mahoni.flink;
+package com.mahoni.flink.air_quality.job;
 
-import com.mahoni.schema.AirQualityProcessedSchema;
+import com.mahoni.flink.schema.AirQualityProcessedSchema;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import io.confluent.kafka.serializers.KafkaAvroSerializerConfig;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
