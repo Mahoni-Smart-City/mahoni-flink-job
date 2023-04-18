@@ -3,7 +3,7 @@
  *
  * DO NOT EDIT DIRECTLY
  */
-package com.mahoni.schema;
+package com.mahoni.flink.schema;
 
 import org.apache.avro.message.BinaryMessageDecoder;
 import org.apache.avro.message.BinaryMessageEncoder;
@@ -434,8 +434,8 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Creates a new AirQualityRawSchema RecordBuilder.
    * @return A new AirQualityRawSchema RecordBuilder
    */
-  public static com.mahoni.schema.AirQualityRawSchema.Builder newBuilder() {
-    return new com.mahoni.schema.AirQualityRawSchema.Builder();
+  public static Builder newBuilder() {
+    return new Builder();
   }
 
   /**
@@ -443,11 +443,11 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * @param other The existing builder to copy.
    * @return A new AirQualityRawSchema RecordBuilder
    */
-  public static com.mahoni.schema.AirQualityRawSchema.Builder newBuilder(com.mahoni.schema.AirQualityRawSchema.Builder other) {
+  public static Builder newBuilder(Builder other) {
     if (other == null) {
-      return new com.mahoni.schema.AirQualityRawSchema.Builder();
+      return new Builder();
     } else {
-      return new com.mahoni.schema.AirQualityRawSchema.Builder(other);
+      return new Builder(other);
     }
   }
 
@@ -456,11 +456,11 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * @param other The existing instance to copy.
    * @return A new AirQualityRawSchema RecordBuilder
    */
-  public static com.mahoni.schema.AirQualityRawSchema.Builder newBuilder(com.mahoni.schema.AirQualityRawSchema other) {
+  public static Builder newBuilder(AirQualityRawSchema other) {
     if (other == null) {
-      return new com.mahoni.schema.AirQualityRawSchema.Builder();
+      return new Builder();
     } else {
-      return new com.mahoni.schema.AirQualityRawSchema.Builder(other);
+      return new Builder(other);
     }
   }
 
@@ -496,7 +496,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(com.mahoni.schema.AirQualityRawSchema.Builder other) {
+    private Builder(Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.eventId)) {
         this.eventId = data().deepCopy(fields()[0].schema(), other.eventId);
@@ -564,7 +564,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
      * Creates a Builder by copying an existing AirQualityRawSchema instance
      * @param other The existing instance to copy.
      */
-    private Builder(com.mahoni.schema.AirQualityRawSchema other) {
+    private Builder(AirQualityRawSchema other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.eventId)) {
         this.eventId = data().deepCopy(fields()[0].schema(), other.eventId);
@@ -642,7 +642,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'eventId'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setEventId(String value) {
+    public Builder setEventId(String value) {
       validate(fields()[0], value);
       this.eventId = value;
       fieldSetFlags()[0] = true;
@@ -662,7 +662,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'eventId' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearEventId() {
+    public Builder clearEventId() {
       eventId = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -682,7 +682,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'sensorId'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setSensorId(String value) {
+    public Builder setSensorId(String value) {
       validate(fields()[1], value);
       this.sensorId = value;
       fieldSetFlags()[1] = true;
@@ -702,7 +702,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'sensorId' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearSensorId() {
+    public Builder clearSensorId() {
       sensorId = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -722,7 +722,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'timestamp'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setTimestamp(long value) {
+    public Builder setTimestamp(long value) {
       validate(fields()[2], value);
       this.timestamp = value;
       fieldSetFlags()[2] = true;
@@ -742,7 +742,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'timestamp' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearTimestamp() {
+    public Builder clearTimestamp() {
       fieldSetFlags()[2] = false;
       return this;
     }
@@ -761,7 +761,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'aqi'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setAqi(double value) {
+    public Builder setAqi(double value) {
       validate(fields()[3], value);
       this.aqi = value;
       fieldSetFlags()[3] = true;
@@ -781,7 +781,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'aqi' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearAqi() {
+    public Builder clearAqi() {
       fieldSetFlags()[3] = false;
       return this;
     }
@@ -800,7 +800,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'co'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setCo(double value) {
+    public Builder setCo(double value) {
       validate(fields()[4], value);
       this.co = value;
       fieldSetFlags()[4] = true;
@@ -820,7 +820,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'co' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearCo() {
+    public Builder clearCo() {
       fieldSetFlags()[4] = false;
       return this;
     }
@@ -839,7 +839,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'no'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setNo(double value) {
+    public Builder setNo(double value) {
       validate(fields()[5], value);
       this.no = value;
       fieldSetFlags()[5] = true;
@@ -859,7 +859,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'no' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearNo() {
+    public Builder clearNo() {
       fieldSetFlags()[5] = false;
       return this;
     }
@@ -878,7 +878,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'no2'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setNo2(double value) {
+    public Builder setNo2(double value) {
       validate(fields()[6], value);
       this.no2 = value;
       fieldSetFlags()[6] = true;
@@ -898,7 +898,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'no2' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearNo2() {
+    public Builder clearNo2() {
       fieldSetFlags()[6] = false;
       return this;
     }
@@ -917,7 +917,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'o3'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setO3(double value) {
+    public Builder setO3(double value) {
       validate(fields()[7], value);
       this.o3 = value;
       fieldSetFlags()[7] = true;
@@ -937,7 +937,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'o3' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearO3() {
+    public Builder clearO3() {
       fieldSetFlags()[7] = false;
       return this;
     }
@@ -956,7 +956,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'so2'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setSo2(double value) {
+    public Builder setSo2(double value) {
       validate(fields()[8], value);
       this.so2 = value;
       fieldSetFlags()[8] = true;
@@ -976,7 +976,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'so2' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearSo2() {
+    public Builder clearSo2() {
       fieldSetFlags()[8] = false;
       return this;
     }
@@ -995,7 +995,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'pm25'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setPm25(double value) {
+    public Builder setPm25(double value) {
       validate(fields()[9], value);
       this.pm25 = value;
       fieldSetFlags()[9] = true;
@@ -1015,7 +1015,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'pm25' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearPm25() {
+    public Builder clearPm25() {
       fieldSetFlags()[9] = false;
       return this;
     }
@@ -1034,7 +1034,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'pm10'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setPm10(double value) {
+    public Builder setPm10(double value) {
       validate(fields()[10], value);
       this.pm10 = value;
       fieldSetFlags()[10] = true;
@@ -1054,7 +1054,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'pm10' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearPm10() {
+    public Builder clearPm10() {
       fieldSetFlags()[10] = false;
       return this;
     }
@@ -1073,7 +1073,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'pm1'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setPm1(double value) {
+    public Builder setPm1(double value) {
       validate(fields()[11], value);
       this.pm1 = value;
       fieldSetFlags()[11] = true;
@@ -1093,7 +1093,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'pm1' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearPm1() {
+    public Builder clearPm1() {
       fieldSetFlags()[11] = false;
       return this;
     }
@@ -1112,7 +1112,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'nh3'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setNh3(double value) {
+    public Builder setNh3(double value) {
       validate(fields()[12], value);
       this.nh3 = value;
       fieldSetFlags()[12] = true;
@@ -1132,7 +1132,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'nh3' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearNh3() {
+    public Builder clearNh3() {
       fieldSetFlags()[12] = false;
       return this;
     }
@@ -1151,7 +1151,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'pressure'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setPressure(double value) {
+    public Builder setPressure(double value) {
       validate(fields()[13], value);
       this.pressure = value;
       fieldSetFlags()[13] = true;
@@ -1171,7 +1171,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'pressure' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearPressure() {
+    public Builder clearPressure() {
       fieldSetFlags()[13] = false;
       return this;
     }
@@ -1190,7 +1190,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'humidity'.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder setHumidity(double value) {
+    public Builder setHumidity(double value) {
       validate(fields()[14], value);
       this.humidity = value;
       fieldSetFlags()[14] = true;
@@ -1210,7 +1210,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Clears the value of the 'humidity' field.
       * @return This builder.
       */
-    public com.mahoni.schema.AirQualityRawSchema.Builder clearHumidity() {
+    public Builder clearHumidity() {
       fieldSetFlags()[14] = false;
       return this;
     }
