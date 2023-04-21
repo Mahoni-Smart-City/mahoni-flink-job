@@ -21,6 +21,17 @@ public class SinkInflux implements SinkFunction<AirQualityProcessedSchema> {
                 .addTag("nameLocation",airQualityProcessedSchema.getNameLocation().toString())
                 .addTag("district",airQualityProcessedSchema.getDistrict().toString())
                 .addField("aqi",airQualityProcessedSchema.getAqi())
+                .addField("co",airQualityProcessedSchema.getCo())
+                .addField("no",airQualityProcessedSchema.getNo())
+                .addField("no2",airQualityProcessedSchema.getNo2())
+                .addField("o3",airQualityProcessedSchema.getO3())
+                .addField("so2",airQualityProcessedSchema.getSo2())
+                .addField("pm25",airQualityProcessedSchema.getPm25())
+                .addField("pm10",airQualityProcessedSchema.getPm10())
+                .addField("pm1",airQualityProcessedSchema.getPm1())
+                .addField("nh3",airQualityProcessedSchema.getNh3())
+                .addField("pressure",airQualityProcessedSchema.getPressure())
+                .addField("humidity",airQualityProcessedSchema.getHumidity())
                 .time(airQualityProcessedSchema.getTimestamp(), WritePrecision.MS);
         writeApi.writePoint(point);
     }

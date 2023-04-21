@@ -298,10 +298,12 @@ public class AqiMeasurement {
             String currentKey = aqi.f0;
             String category = aqi.f2;
             Integer currentMax = maxValues.get(currentKey);
+            //System.out.println(currentValue);
 
             if (currentMax == null || currentValue > currentMax) {
                 maxValues.put(currentKey, currentValue);
                 out.collect(Tuple3.of(currentKey, currentValue,category));
+                maxValues.put(currentKey, 0);
             }
 
         }

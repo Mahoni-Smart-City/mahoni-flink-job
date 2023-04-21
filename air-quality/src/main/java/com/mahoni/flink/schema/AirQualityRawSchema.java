@@ -5,15 +5,17 @@
  */
 package com.mahoni.flink.schema;
 
-import org.apache.avro.message.BinaryMessageDecoder;
-import org.apache.avro.message.BinaryMessageEncoder;
-import org.apache.avro.message.SchemaStore;
+import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
+import org.apache.avro.util.Utf8;
+import org.apache.avro.message.BinaryMessageEncoder;
+import org.apache.avro.message.BinaryMessageDecoder;
+import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 2831852033150391894L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AirQualityRawSchema\",\"namespace\":\"com.mahoni.schema\",\"fields\":[{\"name\":\"eventId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"sensorId\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"aqi\",\"type\":\"double\"},{\"name\":\"co\",\"type\":\"double\"},{\"name\":\"no\",\"type\":\"double\"},{\"name\":\"no2\",\"type\":\"double\"},{\"name\":\"o3\",\"type\":\"double\"},{\"name\":\"so2\",\"type\":\"double\"},{\"name\":\"pm25\",\"type\":\"double\"},{\"name\":\"pm10\",\"type\":\"double\"},{\"name\":\"pm1\",\"type\":\"double\"},{\"name\":\"nh3\",\"type\":\"double\"},{\"name\":\"pressure\",\"type\":\"double\"},{\"name\":\"humidity\",\"type\":\"double\"}]}");
+  private static final long serialVersionUID = -5030875543123237804L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AirQualityRawSchema\",\"namespace\":\"com.mahoni.flink.schema\",\"fields\":[{\"name\":\"eventId\",\"type\":\"string\"},{\"name\":\"sensorId\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"aqi\",\"type\":\"double\"},{\"name\":\"co\",\"type\":\"double\"},{\"name\":\"no\",\"type\":\"double\"},{\"name\":\"no2\",\"type\":\"double\"},{\"name\":\"o3\",\"type\":\"double\"},{\"name\":\"so2\",\"type\":\"double\"},{\"name\":\"pm25\",\"type\":\"double\"},{\"name\":\"pm10\",\"type\":\"double\"},{\"name\":\"pm1\",\"type\":\"double\"},{\"name\":\"nh3\",\"type\":\"double\"},{\"name\":\"pressure\",\"type\":\"double\"},{\"name\":\"humidity\",\"type\":\"double\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -69,8 +71,8 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     return DECODER.decode(b);
   }
 
-   private String eventId;
-   private String sensorId;
+   private CharSequence eventId;
+   private CharSequence sensorId;
    private long timestamp;
    private double aqi;
    private double co;
@@ -110,7 +112,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * @param pressure The new value for pressure
    * @param humidity The new value for humidity
    */
-  public AirQualityRawSchema(String eventId, String sensorId, Long timestamp, Double aqi, Double co, Double no, Double no2, Double o3, Double so2, Double pm25, Double pm10, Double pm1, Double nh3, Double pressure, Double humidity) {
+  public AirQualityRawSchema(CharSequence eventId, CharSequence sensorId, Long timestamp, Double aqi, Double co, Double no, Double no2, Double o3, Double so2, Double pm25, Double pm10, Double pm1, Double nh3, Double pressure, Double humidity) {
     this.eventId = eventId;
     this.sensorId = sensorId;
     this.timestamp = timestamp;
@@ -156,8 +158,8 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   @SuppressWarnings(value="unchecked")
   public void put(int field$, Object value$) {
     switch (field$) {
-    case 0: eventId = value$ != null ? value$.toString() : null; break;
-    case 1: sensorId = value$ != null ? value$.toString() : null; break;
+    case 0: eventId = (CharSequence)value$; break;
+    case 1: sensorId = (CharSequence)value$; break;
     case 2: timestamp = (Long)value$; break;
     case 3: aqi = (Double)value$; break;
     case 4: co = (Double)value$; break;
@@ -179,7 +181,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Gets the value of the 'eventId' field.
    * @return The value of the 'eventId' field.
    */
-  public String getEventId() {
+  public CharSequence getEventId() {
     return eventId;
   }
 
@@ -188,7 +190,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Sets the value of the 'eventId' field.
    * @param value the value to set.
    */
-  public void setEventId(String value) {
+  public void setEventId(CharSequence value) {
     this.eventId = value;
   }
 
@@ -196,7 +198,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Gets the value of the 'sensorId' field.
    * @return The value of the 'sensorId' field.
    */
-  public String getSensorId() {
+  public CharSequence getSensorId() {
     return sensorId;
   }
 
@@ -205,7 +207,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * Sets the value of the 'sensorId' field.
    * @param value the value to set.
    */
-  public void setSensorId(String value) {
+  public void setSensorId(CharSequence value) {
     this.sensorId = value;
   }
 
@@ -471,8 +473,8 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<AirQualityRawSchema>
     implements org.apache.avro.data.RecordBuilder<AirQualityRawSchema> {
 
-    private String eventId;
-    private String sensorId;
+    private CharSequence eventId;
+    private CharSequence sensorId;
     private long timestamp;
     private double aqi;
     private double co;
@@ -632,7 +634,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Gets the value of the 'eventId' field.
       * @return The value.
       */
-    public String getEventId() {
+    public CharSequence getEventId() {
       return eventId;
     }
 
@@ -642,7 +644,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'eventId'.
       * @return This builder.
       */
-    public Builder setEventId(String value) {
+    public Builder setEventId(CharSequence value) {
       validate(fields()[0], value);
       this.eventId = value;
       fieldSetFlags()[0] = true;
@@ -672,7 +674,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * Gets the value of the 'sensorId' field.
       * @return The value.
       */
-    public String getSensorId() {
+    public CharSequence getSensorId() {
       return sensorId;
     }
 
@@ -682,7 +684,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       * @param value The value of 'sensorId'.
       * @return This builder.
       */
-    public Builder setSensorId(String value) {
+    public Builder setSensorId(CharSequence value) {
       validate(fields()[1], value);
       this.sensorId = value;
       fieldSetFlags()[1] = true;
@@ -1220,8 +1222,8 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     public AirQualityRawSchema build() {
       try {
         AirQualityRawSchema record = new AirQualityRawSchema();
-        record.eventId = fieldSetFlags()[0] ? this.eventId : (String) defaultValue(fields()[0]);
-        record.sensorId = fieldSetFlags()[1] ? this.sensorId : (String) defaultValue(fields()[1]);
+        record.eventId = fieldSetFlags()[0] ? this.eventId : (CharSequence) defaultValue(fields()[0]);
+        record.sensorId = fieldSetFlags()[1] ? this.sensorId : (CharSequence) defaultValue(fields()[1]);
         record.timestamp = fieldSetFlags()[2] ? this.timestamp : (Long) defaultValue(fields()[2]);
         record.aqi = fieldSetFlags()[3] ? this.aqi : (Double) defaultValue(fields()[3]);
         record.co = fieldSetFlags()[4] ? this.co : (Double) defaultValue(fields()[4]);
@@ -1304,9 +1306,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.eventId = in.readString();
+      this.eventId = in.readString(this.eventId instanceof Utf8 ? (Utf8)this.eventId : null);
 
-      this.sensorId = in.readString();
+      this.sensorId = in.readString(this.sensorId instanceof Utf8 ? (Utf8)this.sensorId : null);
 
       this.timestamp = in.readLong();
 
@@ -1338,11 +1340,11 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       for (int i = 0; i < 15; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.eventId = in.readString();
+          this.eventId = in.readString(this.eventId instanceof Utf8 ? (Utf8)this.eventId : null);
           break;
 
         case 1:
-          this.sensorId = in.readString();
+          this.sensorId = in.readString(this.sensorId instanceof Utf8 ? (Utf8)this.sensorId : null);
           break;
 
         case 2:

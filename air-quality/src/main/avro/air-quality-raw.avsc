@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "name": "AirQualityProcessedSchema",
+  "name": "AirQualityRawSchema",
   "namespace": "com.mahoni.flink.schema",
   "fields": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "name": "sensorId",
-      "type": "long"
+      "type": "string"
     },
     {
       "name": "timestamp",
@@ -18,10 +18,6 @@
     {
       "name": "aqi",
       "type": "double"
-    },
-    {
-       "name": "category",
-       "type": "string"
     },
     {
       "name": "co",
@@ -66,22 +62,6 @@
     {
       "name": "humidity",
       "type": "double"
-    },
-    {
-      "name": "nameLocation",
-      "type": "string"
-    },
-    {
-      "name": "idLocation",
-      "type": "long"
-    },
-    {
-      "name": "subdistric",
-      "type": "string"
-    },
-    {
-      "name": "district",
-      "type": "string"
     }
   ]
 }

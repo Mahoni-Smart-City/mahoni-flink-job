@@ -5,16 +5,17 @@
  */
 package com.mahoni.flink.schema;
 
-import org.apache.avro.message.BinaryMessageDecoder;
-import org.apache.avro.message.BinaryMessageEncoder;
-import org.apache.avro.message.SchemaStore;
+import org.apache.avro.generic.GenericArray;
 import org.apache.avro.specific.SpecificData;
 import org.apache.avro.util.Utf8;
+import org.apache.avro.message.BinaryMessageEncoder;
+import org.apache.avro.message.BinaryMessageDecoder;
+import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class AirQualityProcessedSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 2943200598139437459L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AirQualityProcessedSchema\",\"namespace\":\"com.mahoni.schema\",\"fields\":[{\"name\":\"eventId\",\"type\":\"string\"},{\"name\":\"sensorId\",\"type\":\"long\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"aqi\",\"type\":\"double\"},{\"name\":\"category\",\"type\":\"string\"},{\"name\":\"co\",\"type\":\"double\"},{\"name\":\"no\",\"type\":\"double\"},{\"name\":\"no2\",\"type\":\"double\"},{\"name\":\"o3\",\"type\":\"double\"},{\"name\":\"so2\",\"type\":\"double\"},{\"name\":\"pm25\",\"type\":\"double\"},{\"name\":\"pm10\",\"type\":\"double\"},{\"name\":\"pm1\",\"type\":\"double\"},{\"name\":\"nh3\",\"type\":\"double\"},{\"name\":\"pressure\",\"type\":\"double\"},{\"name\":\"humidity\",\"type\":\"double\"},{\"name\":\"nameLocation\",\"type\":\"string\"},{\"name\":\"idLocation\",\"type\":\"long\"},{\"name\":\"subdistric\",\"type\":\"string\"},{\"name\":\"district\",\"type\":\"string\"}]}");
+  private static final long serialVersionUID = -8158276627010774847L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AirQualityProcessedSchema\",\"namespace\":\"com.mahoni.flink.schema\",\"fields\":[{\"name\":\"eventId\",\"type\":\"string\"},{\"name\":\"sensorId\",\"type\":\"long\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"aqi\",\"type\":\"double\"},{\"name\":\"category\",\"type\":\"string\"},{\"name\":\"co\",\"type\":\"double\"},{\"name\":\"no\",\"type\":\"double\"},{\"name\":\"no2\",\"type\":\"double\"},{\"name\":\"o3\",\"type\":\"double\"},{\"name\":\"so2\",\"type\":\"double\"},{\"name\":\"pm25\",\"type\":\"double\"},{\"name\":\"pm10\",\"type\":\"double\"},{\"name\":\"pm1\",\"type\":\"double\"},{\"name\":\"nh3\",\"type\":\"double\"},{\"name\":\"pressure\",\"type\":\"double\"},{\"name\":\"humidity\",\"type\":\"double\"},{\"name\":\"nameLocation\",\"type\":\"string\"},{\"name\":\"idLocation\",\"type\":\"long\"},{\"name\":\"subdistric\",\"type\":\"string\"},{\"name\":\"district\",\"type\":\"string\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
