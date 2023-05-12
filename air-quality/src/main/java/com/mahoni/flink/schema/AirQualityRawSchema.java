@@ -5,17 +5,16 @@
  */
 package com.mahoni.flink.schema;
 
-import org.apache.avro.generic.GenericArray;
+import org.apache.avro.message.BinaryMessageDecoder;
+import org.apache.avro.message.BinaryMessageEncoder;
+import org.apache.avro.message.SchemaStore;
 import org.apache.avro.specific.SpecificData;
 import org.apache.avro.util.Utf8;
-import org.apache.avro.message.BinaryMessageEncoder;
-import org.apache.avro.message.BinaryMessageDecoder;
-import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -5030875543123237804L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AirQualityRawSchema\",\"namespace\":\"com.mahoni.flink.schema\",\"fields\":[{\"name\":\"eventId\",\"type\":\"string\"},{\"name\":\"sensorId\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"aqi\",\"type\":\"double\"},{\"name\":\"co\",\"type\":\"double\"},{\"name\":\"no\",\"type\":\"double\"},{\"name\":\"no2\",\"type\":\"double\"},{\"name\":\"o3\",\"type\":\"double\"},{\"name\":\"so2\",\"type\":\"double\"},{\"name\":\"pm25\",\"type\":\"double\"},{\"name\":\"pm10\",\"type\":\"double\"},{\"name\":\"pm1\",\"type\":\"double\"},{\"name\":\"nh3\",\"type\":\"double\"},{\"name\":\"pressure\",\"type\":\"double\"},{\"name\":\"humidity\",\"type\":\"double\"}]}");
+  private static final long serialVersionUID = 9080695627003001759L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AirQualityRawSchema\",\"namespace\":\"com.mahoni.flink.schema\",\"fields\":[{\"name\":\"eventId\",\"type\":\"string\"},{\"name\":\"sensorId\",\"type\":\"string\"},{\"name\":\"timestamp\",\"type\":\"long\"},{\"name\":\"aqi\",\"type\":\"double\"},{\"name\":\"co\",\"type\":\"double\"},{\"name\":\"no\",\"type\":\"double\"},{\"name\":\"no2\",\"type\":\"double\"},{\"name\":\"o3\",\"type\":\"double\"},{\"name\":\"so2\",\"type\":\"double\"},{\"name\":\"pm25\",\"type\":\"double\"},{\"name\":\"pm10\",\"type\":\"double\"},{\"name\":\"pm1\",\"type\":\"double\"},{\"name\":\"nh3\",\"type\":\"double\"},{\"name\":\"pressure\",\"type\":\"double\"},{\"name\":\"humidity\",\"type\":\"double\"},{\"name\":\"temperature\",\"type\":\"double\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -86,6 +85,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    private double nh3;
    private double pressure;
    private double humidity;
+   private double temperature;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -111,8 +111,9 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
    * @param nh3 The new value for nh3
    * @param pressure The new value for pressure
    * @param humidity The new value for humidity
+   * @param temperature The new value for temperature
    */
-  public AirQualityRawSchema(CharSequence eventId, CharSequence sensorId, Long timestamp, Double aqi, Double co, Double no, Double no2, Double o3, Double so2, Double pm25, Double pm10, Double pm1, Double nh3, Double pressure, Double humidity) {
+  public AirQualityRawSchema(CharSequence eventId, CharSequence sensorId, Long timestamp, Double aqi, Double co, Double no, Double no2, Double o3, Double so2, Double pm25, Double pm10, Double pm1, Double nh3, Double pressure, Double humidity, Double temperature) {
     this.eventId = eventId;
     this.sensorId = sensorId;
     this.timestamp = timestamp;
@@ -128,6 +129,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     this.nh3 = nh3;
     this.pressure = pressure;
     this.humidity = humidity;
+    this.temperature = temperature;
   }
 
   public SpecificData getSpecificData() { return MODEL$; }
@@ -150,6 +152,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     case 12: return nh3;
     case 13: return pressure;
     case 14: return humidity;
+    case 15: return temperature;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -173,6 +176,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     case 12: nh3 = (Double)value$; break;
     case 13: pressure = (Double)value$; break;
     case 14: humidity = (Double)value$; break;
+    case 15: temperature = (Double)value$; break;
     default: throw new IndexOutOfBoundsException("Invalid index: " + field$);
     }
   }
@@ -433,6 +437,23 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
   }
 
   /**
+   * Gets the value of the 'temperature' field.
+   * @return The value of the 'temperature' field.
+   */
+  public double getTemperature() {
+    return temperature;
+  }
+
+
+  /**
+   * Sets the value of the 'temperature' field.
+   * @param value the value to set.
+   */
+  public void setTemperature(double value) {
+    this.temperature = value;
+  }
+
+  /**
    * Creates a new AirQualityRawSchema RecordBuilder.
    * @return A new AirQualityRawSchema RecordBuilder
    */
@@ -488,6 +509,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
     private double nh3;
     private double pressure;
     private double humidity;
+    private double temperature;
 
     /** Creates a new Builder */
     private Builder() {
@@ -560,6 +582,10 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
         this.humidity = data().deepCopy(fields()[14].schema(), other.humidity);
         fieldSetFlags()[14] = other.fieldSetFlags()[14];
       }
+      if (isValidValue(fields()[15], other.temperature)) {
+        this.temperature = data().deepCopy(fields()[15].schema(), other.temperature);
+        fieldSetFlags()[15] = other.fieldSetFlags()[15];
+      }
     }
 
     /**
@@ -627,6 +653,10 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       if (isValidValue(fields()[14], other.humidity)) {
         this.humidity = data().deepCopy(fields()[14].schema(), other.humidity);
         fieldSetFlags()[14] = true;
+      }
+      if (isValidValue(fields()[15], other.temperature)) {
+        this.temperature = data().deepCopy(fields()[15].schema(), other.temperature);
+        fieldSetFlags()[15] = true;
       }
     }
 
@@ -1217,6 +1247,45 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
       return this;
     }
 
+    /**
+      * Gets the value of the 'temperature' field.
+      * @return The value.
+      */
+    public double getTemperature() {
+      return temperature;
+    }
+
+
+    /**
+      * Sets the value of the 'temperature' field.
+      * @param value The value of 'temperature'.
+      * @return This builder.
+      */
+    public Builder setTemperature(double value) {
+      validate(fields()[15], value);
+      this.temperature = value;
+      fieldSetFlags()[15] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'temperature' field has been set.
+      * @return True if the 'temperature' field has been set, false otherwise.
+      */
+    public boolean hasTemperature() {
+      return fieldSetFlags()[15];
+    }
+
+
+    /**
+      * Clears the value of the 'temperature' field.
+      * @return This builder.
+      */
+    public Builder clearTemperature() {
+      fieldSetFlags()[15] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public AirQualityRawSchema build() {
@@ -1237,6 +1306,7 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
         record.nh3 = fieldSetFlags()[12] ? this.nh3 : (Double) defaultValue(fields()[12]);
         record.pressure = fieldSetFlags()[13] ? this.pressure : (Double) defaultValue(fields()[13]);
         record.humidity = fieldSetFlags()[14] ? this.humidity : (Double) defaultValue(fields()[14]);
+        record.temperature = fieldSetFlags()[15] ? this.temperature : (Double) defaultValue(fields()[15]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -1299,6 +1369,8 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
 
     out.writeDouble(this.humidity);
 
+    out.writeDouble(this.temperature);
+
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -1336,8 +1408,10 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
 
       this.humidity = in.readDouble();
 
+      this.temperature = in.readDouble();
+
     } else {
-      for (int i = 0; i < 15; i++) {
+      for (int i = 0; i < 16; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.eventId = in.readString(this.eventId instanceof Utf8 ? (Utf8)this.eventId : null);
@@ -1397,6 +1471,10 @@ public class AirQualityRawSchema extends org.apache.avro.specific.SpecificRecord
 
         case 14:
           this.humidity = in.readDouble();
+          break;
+
+        case 15:
+          this.temperature = in.readDouble();
           break;
 
         default:

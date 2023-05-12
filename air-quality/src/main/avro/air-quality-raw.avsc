@@ -62,6 +62,10 @@
     {
       "name": "humidity",
       "type": "double"
+    },
+    {
+      "name": "temperature",
+      "type": "double"
     }
   ]
 }

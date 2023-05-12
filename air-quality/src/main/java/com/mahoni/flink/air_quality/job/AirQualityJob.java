@@ -34,13 +34,13 @@ public class AirQualityJob {
         env.setRestartStrategy(RestartStrategies.noRestart());
 
         Properties kafkaConsumerProps = new Properties();
-        kafkaConsumerProps.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        kafkaConsumerProps.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://34.128.127.171:9092");
         kafkaConsumerProps.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         kafkaConsumerProps.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class.getName());
-        kafkaConsumerProps.setProperty(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+        kafkaConsumerProps.setProperty(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://34.128.127.171:8081");
         //kafkaConsumerProps.setProperty(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, "true");
 
-        DataStream<AirQualityRawSchema> airQualityRaw = env.addSource(new FlinkKafkaConsumer<>("air-quality-raw-topic", ConfluentRegistryAvroDeserializationSchema.forSpecific(AirQualityRawSchema.class, "http://localhost:8081"), kafkaConsumerProps))
+        DataStream<AirQualityRawSchema> airQualityRaw = env.addSource(new FlinkKafkaConsumer<>("air-quality-raw-topic", ConfluentRegistryAvroDeserializationSchema.forSpecific(AirQualityRawSchema.class, "http://34.128.127.171:8081"), kafkaConsumerProps))
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(5)))
                 .process(new Cleaning.CleanAqi());
@@ -106,8 +106,6 @@ public class AirQualityJob {
         airQualityProcessed.addSink(new SinkKafka());
         airQualityProcessed.addSink(new SinkInflux());
 
-
-
         env.execute("Air Quality Job");
     }
 
@@ -172,6 +170,7 @@ public class AirQualityJob {
                     airQualityRawSchema.getNh3(),
                     airQualityRawSchema.getPressure(),
                     airQualityRawSchema.getHumidity(),
+                    airQualityRawSchema.getTemperature(),
                     nameLocation,
                     idLocation,
                     district,

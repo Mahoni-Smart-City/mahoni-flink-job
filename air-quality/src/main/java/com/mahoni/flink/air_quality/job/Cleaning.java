@@ -43,6 +43,9 @@ public class Cleaning {
             double humidity = Math.floor(airQualityRawSchema.getHumidity() * 100) / 100;
             airQualityRawSchema.setHumidity(humidity);
 
+            double temperature = Math.floor(airQualityRawSchema.getTemperature() * 100) / 100;
+            airQualityRawSchema.setTemperature(temperature);
+
             out.collect(airQualityRawSchema);
         }
     }
