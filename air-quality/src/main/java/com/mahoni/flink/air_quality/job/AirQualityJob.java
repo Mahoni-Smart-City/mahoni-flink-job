@@ -101,17 +101,18 @@ public class AirQualityJob {
                 .intervalJoin(aqi.keyBy(value -> value.f0))
                 .between(Time.minutes(-1), Time.minutes(0)).process(new RenewAqi());
 
-        //airQualityProcessed.print(); //hasil data final berupa enrichmen dan hasil AQI yang sudah dicari
+        airQualityProcessed.print(); //hasil data final berupa enrichmen dan hasil AQI yang sudah dicari
 
         airQualityProcessed.addSink(new SinkKafka());
-        //airQualityProcessed.addSink(new SinkInflux());
+        airQualityProcessed.addSink(new SinkInflux());
 
         env.execute("Air Quality Job");
     }
 
     public static class RenewAqi extends ProcessJoinFunction<AirQualityRawSchema, Tuple3<String, Integer, String>, AirQualityProcessedSchema> {
-        private static final String CASSANDRA_KEYSPACE = "mahoni";
-        private static final String CASSANDRA_HOST = "34.101.66.113";
+        private static final String CASSANDRA_KEYSPACE = "air_quality";
+        private static final String CASSANDRA_TABLE = "air_sensor";
+        private static final String CASSANDRA_HOST = "localhost";
         private static final int CASSANDRA_PORT = 9042;
 
         private transient CqlSession session;
@@ -127,7 +128,7 @@ public class AirQualityJob {
 
             session = CqlSession.builder()
                     .addContactPoint(InetSocketAddress.createUnresolved(CASSANDRA_HOST, CASSANDRA_PORT))
-                    .withLocalDatacenter("asia-southeast2")
+                    .withLocalDatacenter("datacenter1")
                     .withKeyspace(CASSANDRA_KEYSPACE)
                     .build();
 
@@ -141,16 +142,16 @@ public class AirQualityJob {
                 int newAqi = aqi.f1;
                 airQualityRawSchema.setAqi((double) newAqi);
             }
-            ResultSet airSensorDetail = session.execute("SELECT * FROM air_sensors WHERE id=" + airQualityRawSchema.getSensorId());
+            ResultSet airSensorDetail = session.execute("SELECT * FROM air_sensor WHERE id=" + airQualityRawSchema.getSensorId());
             for(Row rowAirSensor: airSensorDetail){
-                idLocation = rowAirSensor.getLong("location_id");
-                nameLocation = rowAirSensor.getString("location_name");
+                idLocation = rowAirSensor.getLong("id_location");
+                nameLocation = rowAirSensor.getString("name_location");
             }
 
-            ResultSet locationDetail = session.execute("SELECT * FROM locations WHERE id=" + Long.toString(idLocation));
+            ResultSet locationDetail = session.execute("SELECT * FROM location WHERE id=" + Long.toString(idLocation));
             for(Row rowLocation: locationDetail){
                 district = rowLocation.getString("district");
-                subDistrict = rowLocation.getString("sub_district");
+                subDistrict = rowLocation.getString("subDistrict");
             }
             result = new AirQualityProcessedSchema(
                     airQualityRawSchema.getEventId(),
@@ -172,8 +173,8 @@ public class AirQualityJob {
                     airQualityRawSchema.getTemperature(),
                     nameLocation,
                     idLocation,
-                    subDistrict,
-                    district
+                    district,
+                    subDistrict
             );
 
             out.collect(result);
