@@ -34,6 +34,5 @@ public class SinkInflux implements SinkFunction<AirQualityProcessedSchema> {
                 .addField("temperature",airQualityProcessedSchema.getTemperature())
                 .time(airQualityProcessedSchema.getTimestamp(), WritePrecision.MS);
         writeApi.writePoint(point);
-        System.out.println("test");
     }
 }
