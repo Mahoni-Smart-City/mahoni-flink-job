@@ -103,7 +103,7 @@ public class AirQualityJob {
 
         airQualityProcessed.print(); //hasil data final berupa enrichmen dan hasil AQI yang sudah dicari
 
-        airQualityProcessed.addSink(new SinkKafka());
+        airQualityProcessed.addSink(new SinkFunction());
         //airQualityProcessed.addSink(new SinkInflux());
 
         env.execute("Air Quality Job");
