@@ -33,7 +33,7 @@ public class SinkFunction implements org.apache.flink.streaming.api.functions.si
         ProducerRecord<String, AirQualityProcessedSchema> record = new ProducerRecord<>("air-quality-processed-topic", id, airQualityProcessedSchema);
         kafkaProducer.send(record);
 
-        InfluxDBClient influxDBClient = InfluxDBClientFactory.create("http://34.101.46.116:8086/", "awgmOZ1qYzHHevqtvKTnz6jZlgj9qO2QKeW7n7yB5hrTY-HZaV3tEPP9f6PkGz_915aN52CyumKsupbTvPnbtw==".toCharArray(), "mahoni_v1", "air_sensor_v1");
+        InfluxDBClient influxDBClient = InfluxDBClientFactory.create("http://34.128.67.173:8086/", "sFTppz2pO6_iaWRvl0yxcilS5XsREBzwZf0g7eEgyNdKdlsr8Y_0H3-OGnIwpLjZari0WILir5N2EQmiGbd9Zw==".toCharArray(), "mahoni", "air_sensor");
         WriteApiBlocking writeApi = influxDBClient.getWriteApiBlocking();
 
         Point point = Point.measurement("air_sensor_new")

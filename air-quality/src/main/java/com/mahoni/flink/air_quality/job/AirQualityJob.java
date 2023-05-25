@@ -15,6 +15,7 @@ import org.apache.flink.formats.avro.registry.confluent.ConfluentRegistryAvroDes
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.co.ProcessJoinFunction;
+import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingProcessingTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
@@ -112,7 +113,7 @@ public class AirQualityJob {
     public static class RenewAqi extends ProcessJoinFunction<AirQualityRawSchema, Tuple3<String, Integer, String>, AirQualityProcessedSchema> {
         private static final String CASSANDRA_KEYSPACE = "mahoni";
         private static final String CASSANDRA_TABLE = "air_sensor";
-        private static final String CASSANDRA_HOST = "34.101.66.113";
+        private static final String CASSANDRA_HOST = "34.101.176.46";
         private static final int CASSANDRA_PORT = 9042;
 
         private transient CqlSession session;
@@ -154,8 +155,6 @@ public class AirQualityJob {
                 district = rowLocation.getString("district");
                 subDistrict = rowLocation.getString("sub_district");
             }
-            //System.out.print(airQualityRawSchema.getSensorId().toString());
-            //System.out.print(subDistrict);
             result = new AirQualityProcessedSchema(
                     airQualityRawSchema.getEventId(),
                     Long.parseLong(airQualityRawSchema.getSensorId().toString()),
