@@ -35,6 +35,7 @@ public class AirQualityJob {
         env.setRestartStrategy(RestartStrategies.noRestart());
 
         Properties kafkaConsumerProps = new Properties();
+
         kafkaConsumerProps.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://34.128.127.171:9092");
         kafkaConsumerProps.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         kafkaConsumerProps.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class.getName());
