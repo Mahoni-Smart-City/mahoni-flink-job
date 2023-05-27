@@ -175,7 +175,7 @@
                             </filters>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.mahoni.flink.AirQualityJob</mainClass>
+                                    <mainClass>com.mahoni.flink.air_quality.job.AirQualityJob</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

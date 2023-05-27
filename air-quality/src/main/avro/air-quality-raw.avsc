@@ -1,0 +1,71 @@
+{
+  "type": "record",
+  "name": "AirQualityRawSchema",
+  "namespace": "com.mahoni.flink.schema",
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string"
+    },
+    {
+      "name": "sensorId",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    },
+    {
+      "name": "aqi",
+      "type": "double"
+    },
+    {
+      "name": "co",
+      "type": "double"
+    },
+    {
+      "name": "no",
+      "type": "double"
+    },
+    {
+      "name": "no2",
+      "type": "double"
+    },
+    {
+      "name": "o3",
+      "type": "double"
+    },
+    {
+      "name": "so2",
+      "type": "double"
+    },
+    {
+      "name": "pm25",
+      "type": "double"
+    },
+    {
+      "name": "pm10",
+      "type": "double"
+    },
+    {
+      "name": "pm1",
+      "type": "double"
+    },
+    {
+      "name": "nh3",
+      "type": "double"
+    },
+    {
+      "name": "pressure",
+      "type": "double"
+    },
+    {
+      "name": "humidity",
+      "type": "double"
+    },
+    {
+      "name": "temperature",
+      "type": "double"
+    }
+  ]
+}

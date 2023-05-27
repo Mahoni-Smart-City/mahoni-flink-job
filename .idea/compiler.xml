@@ -9,5 +9,8 @@
         <module name="air-quality" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="voucher" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
