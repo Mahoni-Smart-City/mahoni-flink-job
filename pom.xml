@@ -11,6 +11,7 @@
     <modules>
         <module>air-quality</module>
         <module>trip-job</module>
+        <module>voucher</module>
     </modules>
 
     <properties>
