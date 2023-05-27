@@ -3,8 +3,6 @@ package com.mahoni.flink.trip.job;
 import com.datastax.oss.driver.api.core.CqlSession;
 import com.datastax.oss.driver.api.core.cql.ResultSet;
 import com.datastax.oss.driver.api.core.cql.Row;
-import com.mahoni.flink.trip.schema.TripEnrichment;
-import com.mahoni.flink.trip.schema.TripSchema;
 import io.confluent.kafka.serializers.KafkaAvroDeserializer;
 import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
@@ -23,6 +21,8 @@ import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Properties;
+import com.mahoni.schema.TripSchema;
+import com.mahoni.schema.TripEnrichment;
 
 public class TripJob {
     public static void main(String[] args) throws Exception {
@@ -30,27 +30,28 @@ public class TripJob {
         env.setRestartStrategy(RestartStrategies.noRestart());
 
         Properties kafkaConsumerProps = new Properties();
-        kafkaConsumerProps.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        kafkaConsumerProps.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.128.127.171:9092");
         kafkaConsumerProps.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         kafkaConsumerProps.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class.getName());
-        kafkaConsumerProps.setProperty(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+        kafkaConsumerProps.setProperty(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://34.128.127.171:8081");
 
-        DataStream<TripSchema> trip = env.addSource(new FlinkKafkaConsumer<>("trip-topic", ConfluentRegistryAvroDeserializationSchema.forSpecific(TripSchema.class, "http://localhost:8081"), kafkaConsumerProps))
+        DataStream<TripSchema> trip = env.addSource(new FlinkKafkaConsumer<>("trip-topic", ConfluentRegistryAvroDeserializationSchema.forSpecific(TripSchema.class, "http://34.128.127.171:8081"), kafkaConsumerProps))
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(5)));
 
         DataStream<TripEnrichment> tripEnrichment = trip.process(new TripProcess());
+        tripEnrichment.print();
         tripEnrichment.addSink(new SinkInflux());
         env.execute("Trip Job");
     }
 
     public static class TripProcess extends ProcessFunction<TripSchema, TripEnrichment>{
-        private static final String CASSANDRA_KEYSPACE_1 = "trip";
-        private static final String CASSANDRA_KEYSPACE_2 = "user";
-        private static final String CASSANDRA_HOST = "localhost";
+        private static final String CASSANDRA_KEYSPACE = "mahoni";
+        private static final String CASSANDRA_HOST = "34.101.176.46";
         private static final int CASSANDRA_PORT = 9042;
 
-        boolean sex;
+        String sex;
+        int sex_decode;
         int age;
         String nameLocation;
         String type;
@@ -58,31 +59,33 @@ public class TripJob {
         String scan;
 
         TripEnrichment result;
-
-        private transient CqlSession session_1;
-        private transient CqlSession session_2;
+        private transient CqlSession session;
         @Override
         public void open(Configuration config) {
-            session_1 = CqlSession.builder()
+
+            session = CqlSession.builder()
                     .addContactPoint(InetSocketAddress.createUnresolved(CASSANDRA_HOST, CASSANDRA_PORT))
-                    .withLocalDatacenter("datacenter1")
-                    .withKeyspace(CASSANDRA_KEYSPACE_1)
+                    .withLocalDatacenter("asia-southeast2")
+                    .withKeyspace(CASSANDRA_KEYSPACE)
                     .build();
-            session_2 = CqlSession.builder()
-                    .addContactPoint(InetSocketAddress.createUnresolved(CASSANDRA_HOST, CASSANDRA_PORT))
-                    .withLocalDatacenter("datacenter1")
-                    .withKeyspace(CASSANDRA_KEYSPACE_2)
-                    .build();
+
         }
         @Override
         public void processElement(TripSchema tripSchema,
                                    Context context,
                                    Collector<TripEnrichment> out) throws Exception {
 
-            ResultSet userDetail = session_2.execute("SELECT * FROM user WHERE id=" + tripSchema.getUserId());
+            ResultSet userDetail = session.execute("SELECT * FROM users WHERE id=" + tripSchema.getUserId());
             for(Row rowUser: userDetail){
-                sex = rowUser.getBoolean("sex");
-                age = LocalDate.now().getYear() - rowUser.getInt("year_of_birth");
+                sex_decode = rowUser.getShort("sex");
+                if (sex_decode==1){
+                    sex = "Male";
+                } else if (sex_decode==2){
+                    sex = "Female";
+                } else{
+                    sex = "Unknown";
+                }
+                age = LocalDate.now().getYear() - (int)rowUser.getLong("year_of_birth");
             }
 
             if (tripSchema.getScanInPlaceId()!=null && tripSchema.getScanOutPlaceId()==null){
@@ -92,18 +95,20 @@ public class TripJob {
                 scanId = tripSchema.getScanOutPlaceId();
                 scan = "OUT";
             }
-            ResultSet qrDetail = session_1.execute("SELECT * FROM qr_generator WHERE id=" + scanId);
+            ResultSet qrDetail = session.execute("SELECT * FROM qr_generators WHERE id=" + scanId);
             for(Row rowQr: qrDetail){
-                nameLocation = rowQr.getString("name_location");
+                nameLocation = rowQr.getString("location");
                 type = rowQr.getString("type");
             }
 
-            result = new TripEnrichment(tripSchema.getTimestamp(),
+            result = new TripEnrichment(
+                    tripSchema.getEventId(),
+                    tripSchema.getTimestamp(),
                     tripSchema.getTripId(),
                     tripSchema.getUserId(),
+                    scanId,
                     scan,
                     tripSchema.getStatus(),
-                    scanId,
                     sex,
                     age,
                     nameLocation,

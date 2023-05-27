@@ -18,10 +18,10 @@ public class SinkKafka implements SinkFunction<AirQualityProcessedSchema> {
     @Override
     public void invoke(AirQualityProcessedSchema value) throws Exception {
 
-        kafkaProducerProps.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        kafkaProducerProps.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.128.127.171:9092");
         kafkaProducerProps.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         kafkaProducerProps.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
-        kafkaProducerProps.setProperty(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+        kafkaProducerProps.setProperty(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://34.128.127.171:8081");
 
         Producer<String, AirQualityProcessedSchema> kafkaProducer = new KafkaProducer<>(kafkaProducerProps);
 

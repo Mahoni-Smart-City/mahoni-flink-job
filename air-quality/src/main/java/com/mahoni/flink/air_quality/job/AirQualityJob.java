@@ -38,12 +38,12 @@ public class AirQualityJob {
         env.setRestartStrategy(RestartStrategies.noRestart());
 
         Properties kafkaConsumerProps = new Properties();
-        kafkaConsumerProps.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        kafkaConsumerProps.setProperty(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "34.128.127.171:9092");
         kafkaConsumerProps.setProperty(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         kafkaConsumerProps.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class.getName());
-        kafkaConsumerProps.setProperty(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+        kafkaConsumerProps.setProperty(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://34.128.127.171:8081");
 
-        DataStream<AirQualityRawSchema> airQualityRaw = env.addSource(new FlinkKafkaConsumer<>("air-quality-raw-topic", ConfluentRegistryAvroDeserializationSchema.forSpecific(AirQualityRawSchema.class, "http://localhost:8081"), kafkaConsumerProps))
+        DataStream<AirQualityRawSchema> airQualityRaw = env.addSource(new FlinkKafkaConsumer<>("air-quality-raw-topic", ConfluentRegistryAvroDeserializationSchema.forSpecific(AirQualityRawSchema.class, "http://34.128.127.171:8081"), kafkaConsumerProps))
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(5)))
                 .process(new CleanAqi());
@@ -111,9 +111,9 @@ public class AirQualityJob {
     }
 
     public static class RenewAqi extends ProcessJoinFunction<AirQualityRawSchema, Tuple3<String, Integer, String>, AirQualityProcessedSchema> {
-        private static final String CASSANDRA_KEYSPACE = "air_quality";
+        private static final String CASSANDRA_KEYSPACE = "mahoni";
         private static final String CASSANDRA_TABLE = "air_sensor";
-        private static final String CASSANDRA_HOST = "localhost";
+        private static final String CASSANDRA_HOST = "34.101.176.46";
         private static final int CASSANDRA_PORT = 9042;
 
         private transient CqlSession session;
@@ -129,7 +129,7 @@ public class AirQualityJob {
 
             session = CqlSession.builder()
                     .addContactPoint(InetSocketAddress.createUnresolved(CASSANDRA_HOST, CASSANDRA_PORT))
-                    .withLocalDatacenter("datacenter1")
+                    .withLocalDatacenter("asia-southeast2")
                     .withKeyspace(CASSANDRA_KEYSPACE)
                     .build();
 

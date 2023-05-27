@@ -1,0 +1,51 @@
+{
+  "type": "record",
+  "name": "TripSchema",
+  "namespace": "com.mahoni.schema",
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    },
+    {
+      "name": "tripId",
+      "type": "string"
+    },
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "qrId",
+      "type": "string"
+    },
+    {
+      "name": "scan",
+      "type": "string"
+    },
+    {
+      "name": "status",
+      "type": "string"
+    },
+    {
+      "name": "sex",
+      "type": "boolean"
+    },
+    {
+      "name": "age",
+      "type": "integer"
+    },
+    {
+      "name": "location_name",
+      "type": "string"
+    },
+    {
+      "name": "type",
+      "type": "string"
+    }
+  ]
+}

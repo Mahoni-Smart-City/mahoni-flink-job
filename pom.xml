@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>air-quality</module>
-        <module>trip</module>
+        <module>trip-job</module>
     </modules>
 
     <properties>
