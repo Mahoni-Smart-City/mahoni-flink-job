@@ -1,0 +1,43 @@
+{
+  "type": "record",
+  "name": "VoucherMerchantEnrichment",
+  "namespace": "com.mahoni.schema",
+  "fields": [
+    {
+      "name": "eventId",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": "long"
+    },
+    {
+      "name": "voucherId",
+      "type": "string"
+    },
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "sex",
+      "type": "string"
+    },
+    {
+      "name": "age",
+      "type": "int"
+    },
+    {
+      "name": "voucherName",
+      "type": "string"
+    },
+    {
+      "name": "voucherType",
+      "type": "string"
+    },
+    {
+      "name": "merchantName",
+      "type": "string"
+    }
+  ]
+}

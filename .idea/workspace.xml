@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="air-quality:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bb2ffbdb-1f80-4bee-bff4-87a121168e92" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/voucher/src/main/java/com/mahoni/flink/voucher/job/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voucher/src/main/java/com/mahoni/flink/voucher/job/SinkInflux.java" beforeDir="false" afterPath="$PROJECT_DIR$/voucher/src/main/java/com/mahoni/flink/voucher/job/SinkInflux.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voucher/src/main/java/com/mahoni/flink/voucher/job/VoucherJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/voucher/src/main/java/com/mahoni/flink/voucher/job/VoucherJob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/voucher/src/main/java/com/mahoni/flink/voucher/schema/VoucherEnrichment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/voucher/src/main/java/com/mahoni/flink/voucher/schema/VoucherRedeemedSchema.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="2NRT1dkjpdldAdUoWVcVwaIyDcE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;TODO_SCOPE&quot;: &quot;All Places&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;11&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/risw/Documents/TA/flink-job&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;Redshift&quot;
+    ]
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/trip-job/src/main/java/com/mahoni/schema" />
+      <recent name="$PROJECT_DIR$/trip-job/src/main/java/com/mahoni/flink/trip/job" />
+      <recent name="$PROJECT_DIR$/air-quality/src/main/avro" />
+      <recent name="$PROJECT_DIR$/air-quality/src/main/java/com/mahoni/flink/schema" />
+      <recent name="$PROJECT_DIR$/air-quality/src/main/java/com/mahoni/flink/air_quality/job" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.mahoni.schema" />
+      <recent name="com.mahoni.flink.schema" />
+      <recent name="com.mahoni.flink.voucher.job" />
+      <recent name="com.mahoni.flink.trip.job" />
+      <recent name="com.mahoni.flink.voucher.schema" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.VoucherJob">
+    <configuration name="AirQualityJob" type="Application" factoryName="Application" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.mahoni.flink.air_quality.job.AirQualityJob" />
+      <module name="air-quality" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mahoni.flink.air_quality.job.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TripJob" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mahoni.flink.trip.job.TripJob" />
+      <module name="trip-job" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mahoni.flink.trip.job.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="VoucherJob" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mahoni.flink.voucher.job.VoucherJob" />
+      <module name="voucher" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mahoni.flink.voucher.job.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
+      <deployment type="docker-compose.yml">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.jobmanager: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="jobmanager" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml.taskmanager: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="taskmanager" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.VoucherJob" />
+      <item itemvalue="Application.TripJob" />
+      <item itemvalue="Application.AirQualityJob" />
+      <item itemvalue="Docker.docker-compose.yml.jobmanager: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml.taskmanager: Compose Deployment" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.VoucherJob" />
+        <item itemvalue="Application.TripJob" />
+        <item itemvalue="Application.AirQualityJob" />
+        <item itemvalue="Docker.docker-compose.yml.taskmanager: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.jobmanager: Compose Deployment" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bb2ffbdb-1f80-4bee-bff4-87a121168e92" name="Changes" comment="" />
+      <created>1679625682881</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679625682881</updated>
+      <workItem from="1679625684256" duration="9275000" />
+      <workItem from="1679880422614" duration="16420000" />
+      <workItem from="1679969074080" duration="3969000" />
+      <workItem from="1679977340560" duration="10039000" />
+      <workItem from="1680059892288" duration="18257000" />
+      <workItem from="1680105658674" duration="3640000" />
+      <workItem from="1680141628344" duration="25593000" />
+      <workItem from="1680230855896" duration="158000" />
+      <workItem from="1680232106724" duration="3161000" />
+      <workItem from="1680242536300" duration="4332000" />
+      <workItem from="1680249015671" duration="6785000" />
+      <workItem from="1680273538112" duration="7090000" />
+      <workItem from="1680407781451" duration="3226000" />
+      <workItem from="1680487074299" duration="2912000" />
+      <workItem from="1680579449155" duration="2541000" />
+      <workItem from="1680586142671" duration="622000" />
+      <workItem from="1680603162107" duration="652000" />
+      <workItem from="1680662015581" duration="3882000" />
+      <workItem from="1680680181533" duration="2771000" />
+      <workItem from="1680706590585" duration="1920000" />
+      <workItem from="1680756881192" duration="4010000" />
+      <workItem from="1680791966164" duration="1876000" />
+      <workItem from="1680835554123" duration="8715000" />
+      <workItem from="1680863276394" duration="1700000" />
+      <workItem from="1680878874951" duration="5042000" />
+      <workItem from="1680939872042" duration="8455000" />
+      <workItem from="1680971110610" duration="3106000" />
+      <workItem from="1681009001527" duration="5390000" />
+      <workItem from="1681094028248" duration="5951000" />
+      <workItem from="1681108700091" duration="3036000" />
+      <workItem from="1681116115568" duration="826000" />
+      <workItem from="1681117070671" duration="5231000" />
+      <workItem from="1681135376580" duration="4798000" />
+      <workItem from="1681147185977" duration="3542000" />
+      <workItem from="1681178947965" duration="902000" />
+      <workItem from="1681181639332" duration="494000" />
+      <workItem from="1681196954274" duration="2521000" />
+      <workItem from="1681283582755" duration="1589000" />
+      <workItem from="1681367696628" duration="6060000" />
+      <workItem from="1681374596247" duration="2823000" />
+      <workItem from="1681377962818" duration="867000" />
+      <workItem from="1681397505538" duration="8209000" />
+      <workItem from="1681436584529" duration="2133000" />
+      <workItem from="1681440691583" duration="3008000" />
+      <workItem from="1681444351865" duration="1316000" />
+      <workItem from="1681699246917" duration="738000" />
+      <workItem from="1681701257015" duration="253000" />
+      <workItem from="1681738141485" duration="1153000" />
+      <workItem from="1681740021942" duration="491000" />
+      <workItem from="1681745512771" duration="1123000" />
+      <workItem from="1681785903752" duration="4772000" />
+      <workItem from="1681792642804" duration="1080000" />
+      <workItem from="1681799208942" duration="6454000" />
+      <workItem from="1681954210912" duration="990000" />
+      <workItem from="1681955383399" duration="975000" />
+      <workItem from="1681956443461" duration="1069000" />
+      <workItem from="1681959169074" duration="1002000" />
+      <workItem from="1681996344657" duration="1380000" />
+      <workItem from="1681998168947" duration="273000" />
+      <workItem from="1681998808586" duration="4605000" />
+      <workItem from="1682082039943" duration="6309000" />
+      <workItem from="1682088586959" duration="327000" />
+      <workItem from="1682089245112" duration="1012000" />
+      <workItem from="1682090548089" duration="2086000" />
+      <workItem from="1682214535586" duration="794000" />
+      <workItem from="1682220441453" duration="3746000" />
+      <workItem from="1682226344273" duration="1382000" />
+      <workItem from="1682230302141" duration="1965000" />
+      <workItem from="1682393913563" duration="861000" />
+      <workItem from="1682569436034" duration="888000" />
+      <workItem from="1682652272454" duration="2254000" />
+      <workItem from="1682721162032" duration="3619000" />
+      <workItem from="1682768480315" duration="1211000" />
+      <workItem from="1683014257814" duration="472000" />
+      <workItem from="1683068225342" duration="2215000" />
+      <workItem from="1683089646756" duration="1154000" />
+      <workItem from="1683090909633" duration="2008000" />
+      <workItem from="1683101446697" duration="3196000" />
+      <workItem from="1683520548815" duration="1642000" />
+      <workItem from="1683682018094" duration="18000" />
+      <workItem from="1683683447194" duration="169000" />
+      <workItem from="1683777059969" duration="1024000" />
+      <workItem from="1683808186397" duration="4008000" />
+      <workItem from="1683856652575" duration="3412000" />
+      <workItem from="1683863528319" duration="3106000" />
+      <workItem from="1683873182160" duration="3625000" />
+      <workItem from="1683885291087" duration="2820000" />
+      <workItem from="1684068534446" duration="5278000" />
+      <workItem from="1684117748028" duration="1552000" />
+      <workItem from="1684143451981" duration="615000" />
+      <workItem from="1684211315816" duration="623000" />
+      <workItem from="1684222878296" duration="2949000" />
+      <workItem from="1684357624063" duration="3867000" />
+      <workItem from="1684378007372" duration="1385000" />
+      <workItem from="1684413409860" duration="5095000" />
+      <workItem from="1684465839255" duration="605000" />
+      <workItem from="1684730394889" duration="771000" />
+      <workItem from="1684924261618" duration="762000" />
+      <workItem from="1684928280039" duration="3687000" />
+      <workItem from="1684934534351" duration="1782000" />
+      <workItem from="1684942806944" duration="2193000" />
+      <workItem from="1684980925790" duration="4796000" />
+      <workItem from="1685006953941" duration="949000" />
+      <workItem from="1685010949839" duration="1542000" />
+      <workItem from="1685019170274" duration="175000" />
+      <workItem from="1685019370024" duration="1326000" />
+      <workItem from="1685063420084" duration="622000" />
+      <workItem from="1685068482903" duration="607000" />
+      <workItem from="1685083966074" duration="6645000" />
+      <workItem from="1685155811749" duration="1309000" />
+      <workItem from="1685160194718" duration="3013000" />
+      <workItem from="1685183493630" duration="1927000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/air_quality" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/air_quality" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
