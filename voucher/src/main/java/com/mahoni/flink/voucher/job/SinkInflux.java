@@ -6,16 +6,20 @@ import com.influxdb.client.WriteApiBlocking;
 import com.influxdb.client.domain.WritePrecision;
 import com.influxdb.client.write.Point;
 import com.mahoni.schema.VoucherMerchantEnrichment;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 import org.apache.flink.streaming.api.functions.sink.SinkFunction;
 
-public class SinkInflux implements SinkFunction<VoucherMerchantEnrichment> {
+public class SinkInflux extends RichSinkFunction<VoucherMerchantEnrichment> {
+    private transient WriteApiBlocking writeApi;
 
     @Override
+    public void open(Configuration config){
+        InfluxDBClient influxDBClient = InfluxDBClientFactory.create("http://34.101.97.78:8086", "sFTppz2pO6_iaWRvl0yxcilS5XsREBzwZf0g7eEgyNdKdlsr8Y_0H3-OGnIwpLjZari0WILir5N2EQmiGbd9Zw==".toCharArray(), "mahoni", "mahoni_analysis");
+        writeApi = influxDBClient.getWriteApiBlocking();
+    }
+    @Override
     public void invoke(VoucherMerchantEnrichment voucherMerchantEnrichment) throws Exception {
-
-        InfluxDBClient influxDBClient = InfluxDBClientFactory.create("http://34.101.97.78:8086", "sFTppz2pO6_iaWRvl0yxcilS5XsREBzwZf0g7eEgyNdKdlsr8Y_0H3-OGnIwpLjZari0WILir5N2EQmiGbd9Zw==".toCharArray(), "mahoni", "voucher-merchant");
-
-        WriteApiBlocking writeApi = influxDBClient.getWriteApiBlocking();
 
         Point point = Point.measurement("voucher_merchant")
                 .addTag("sex",voucherMerchantEnrichment.getSex().toString())

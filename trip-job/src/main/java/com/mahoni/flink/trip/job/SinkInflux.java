@@ -6,18 +6,19 @@ import com.influxdb.client.WriteApiBlocking;
 import com.influxdb.client.domain.WritePrecision;
 import com.influxdb.client.write.Point;
 import com.mahoni.schema.TripEnrichment;
-import org.apache.flink.streaming.api.functions.sink.SinkFunction;
+import org.apache.flink.configuration.Configuration;
+import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 
-public class SinkInflux implements SinkFunction<TripEnrichment> {
+public class SinkInflux extends RichSinkFunction<TripEnrichment> {
+    private transient WriteApiBlocking writeApi;
 
     @Override
+    public void open(Configuration config){
+        InfluxDBClient influxDBClient = InfluxDBClientFactory.create("http://34.101.97.78:8086", "sFTppz2pO6_iaWRvl0yxcilS5XsREBzwZf0g7eEgyNdKdlsr8Y_0H3-OGnIwpLjZari0WILir5N2EQmiGbd9Zw==".toCharArray(), "mahoni", "mahoni_analysis");
+        writeApi = influxDBClient.getWriteApiBlocking();
+    }
+    @Override
     public void invoke(TripEnrichment tripEnrichment) throws Exception {
-        //belum disesuaikan, jadi masih dicomment
-
-        InfluxDBClient influxDBClient = InfluxDBClientFactory.create("http://34.101.97.78:8086", "sFTppz2pO6_iaWRvl0yxcilS5XsREBzwZf0g7eEgyNdKdlsr8Y_0H3-OGnIwpLjZari0WILir5N2EQmiGbd9Zw==".toCharArray(), "mahoni", "trip");
-
-        WriteApiBlocking writeApi = influxDBClient.getWriteApiBlocking();
-
         Point point = Point.measurement("trips")
                 .addTag("sex",tripEnrichment.getSex().toString())
                 .addTag("location_name",tripEnrichment.getLocationName().toString())
@@ -29,7 +30,5 @@ public class SinkInflux implements SinkFunction<TripEnrichment> {
                 .addField("status",tripEnrichment.getStatus().toString())
                 .time(tripEnrichment.getTimestamp(), WritePrecision.MS);
         writeApi.writePoint(point);
-
-
     }
 }

@@ -11,6 +11,7 @@ import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.formats.avro.registry.confluent.ConfluentRegistryAvroDeserializationSchema;
+import org.apache.flink.streaming.api.datastream.AsyncDataStream;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.ProcessFunction;
@@ -23,6 +24,7 @@ import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 public class VoucherJob {
     public static void main(String[] args) throws Exception {
@@ -39,9 +41,12 @@ public class VoucherJob {
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(5)));
         voucher.print();
-        DataStream<VoucherMerchantEnrichment> voucherEnrichment = voucher.process(new VoucherProcess());
-        voucherEnrichment.print();
-        voucherEnrichment.addSink(new SinkInflux());
+
+        DataStream<VoucherMerchantEnrichment> resultStream =
+                AsyncDataStream.orderedWait(voucher, new Enrichment(), 2000, TimeUnit.MILLISECONDS, 1000);
+        resultStream.print();
+
+        resultStream.addSink(new SinkInflux());
         env.execute("Voucher Job");
     }
 
@@ -86,12 +91,16 @@ public class VoucherJob {
                 }
                 age = LocalDate.now().getYear() - (int)rowUser.getLong("year_of_birth");
             }
+            System.out.println(voucherRedeemedSchema.getVoucherId());
             ResultSet voucherDetail = session.execute("SELECT * FROM vouchers WHERE id=" + voucherRedeemedSchema.getVoucherId());
             for(Row rowVoucher: voucherDetail){
                 nameVoucher = rowVoucher.getString("name");
                 typeVoucher = rowVoucher.getString("type");
                 merchantId = rowVoucher.getString("merchant_id");
             }
+            System.out.println(nameVoucher);
+            System.out.println(typeVoucher);
+            System.out.println(merchantId);
 
             ResultSet merchantDetail = session.execute("SELECT * FROM merchants WHERE id=" + merchantId);
             for(Row rowMerchant: merchantDetail){
