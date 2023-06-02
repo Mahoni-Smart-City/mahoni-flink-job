@@ -12,6 +12,7 @@ import org.apache.flink.streaming.api.functions.async.RichAsyncFunction;
 import java.net.InetSocketAddress;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.UUID;
 
 public class Enrichment extends RichAsyncFunction<VoucherRedeemedSchema, VoucherMerchantEnrichment> {
 
@@ -22,9 +23,10 @@ public class Enrichment extends RichAsyncFunction<VoucherRedeemedSchema, Voucher
     int sex_decode;
     int age;
     String nameVoucher;
+    int typeCode;
     String typeVoucher;
 
-    String merchantId;
+    UUID merchantId;
     String nameMerchant;
     VoucherMerchantEnrichment result;
 
@@ -56,16 +58,23 @@ public class Enrichment extends RichAsyncFunction<VoucherRedeemedSchema, Voucher
             }
             age = LocalDate.now().getYear() - (int)rowUser.getLong("year_of_birth");
         }
-        System.out.println(voucherRedeemedSchema.getVoucherId());
         ResultSet voucherDetail = session.execute("SELECT * FROM vouchers WHERE id=" + voucherRedeemedSchema.getVoucherId());
         for(Row rowVoucher: voucherDetail){
             nameVoucher = rowVoucher.getString("name");
-            typeVoucher = rowVoucher.getString("type");
-            merchantId = rowVoucher.getString("merchant_id");
+            typeCode = rowVoucher.getShort("type");
+            if(typeCode==0){
+                typeVoucher = "FOOD_AND_BEVERAGES";
+            } else if (typeCode==1) {
+                typeVoucher = "GROCERIES";
+            } else if (typeCode==2) {
+                typeVoucher = "ENTERTAINMENT";
+            } else if (typeCode==3) {
+                typeVoucher = "TELECOMMUNICATION";
+            } else if (typeCode==4) {
+                typeVoucher = "HEALTH_AND_BEAUTY";
+            }
+            merchantId = rowVoucher.getUuid("merchant_id");
         }
-        System.out.println(nameVoucher);
-        System.out.println(typeVoucher);
-        System.out.println(merchantId);
 
         ResultSet merchantDetail = session.execute("SELECT * FROM merchants WHERE id=" + merchantId);
         for(Row rowMerchant: merchantDetail){

@@ -23,6 +23,7 @@ public class SinkInflux extends RichSinkFunction<TripEnrichment> {
                 .addTag("sex",tripEnrichment.getSex().toString())
                 .addTag("location_name",tripEnrichment.getLocationName().toString())
                 .addTag("type",tripEnrichment.getType().toString())
+                .addField("trip_id",tripEnrichment.getTripId().toString())
                 .addField("age",tripEnrichment.getAge())
                 .addField("user_id",tripEnrichment.getTripId().toString())
                 .addField("qr_id",tripEnrichment.getQrId().toString())
