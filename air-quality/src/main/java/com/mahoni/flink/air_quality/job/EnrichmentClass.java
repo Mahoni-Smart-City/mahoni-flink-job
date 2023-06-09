@@ -60,10 +60,6 @@ public class EnrichmentClass {
                     .withLocalDatacenter("asia-southeast2")
                     .withKeyspace(CASSANDRA_KEYSPACE)
                     .build();
-
-            //System.out.println(session1);
-
-
         }
         @Override
         public void asyncInvoke(Tuple2<AirQualityRawSchema,String> input, ResultFuture<AirQualityProcessedSchema> resultFuture) throws Exception {
@@ -76,7 +72,6 @@ public class EnrichmentClass {
                 idLocation = rowAirSensorDetail.getLong("location_id");
                 nameLocation = rowAirSensorDetail.getString("location_name");
             }
-
 
             ResultSet locationDetail = session2.execute("SELECT district, sub_district FROM locations WHERE id=" + idLocation);
 

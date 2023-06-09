@@ -40,7 +40,6 @@ public class VoucherJob {
         DataStream<VoucherRedeemedSchema> voucher = env.addSource(new FlinkKafkaConsumer<>("voucher-redeemed-topic", ConfluentRegistryAvroDeserializationSchema.forSpecific(VoucherRedeemedSchema.class, "http://34.128.127.171:8081"), kafkaConsumerProps))
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy.forBoundedOutOfOrderness(Duration.ofSeconds(5)));
-        //voucher.print();
 
         DataStream<VoucherMerchantEnrichment> resultStream =
                 AsyncDataStream.orderedWait(voucher, new Enrichment(), 2000, TimeUnit.MILLISECONDS, 1000);

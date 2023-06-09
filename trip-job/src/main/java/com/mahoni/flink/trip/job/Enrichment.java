@@ -39,8 +39,6 @@ public class Enrichment extends RichAsyncFunction<TripSchema, TripEnrichment> {
                 .withLocalDatacenter("asia-southeast2")//asia-southeast2
                 .withKeyspace(CASSANDRA_KEYSPACE)
                 .build();
-
-
     }
     @Override
     public void asyncInvoke(TripSchema tripSchema, ResultFuture<TripEnrichment> resultFuture) throws Exception {
